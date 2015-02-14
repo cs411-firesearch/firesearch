@@ -1,7 +1,11 @@
 {
-  "name": "node-server-example",
-  "version": "0.0.1",
+  "name": "firesearch",
+  "version": "1.0.0",
   "description": "Example Node Server Todo List",
+  "repository" : { 
+    "type" : "git", 
+    "url" : "https://github.com/hzding621/firesearch.git"
+    },
   "main": "server.js",
   "dependencies": {
     "body-parser": "^1.9.0",
