@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+#container {
+  width: 384px;
+  margin: 10px auto;
+}
+
+#grid, #grid * {
+  box-sizing: content-box;
+}
+
+#grid {
+  width: 384px;
+  height: 384px;
+  padding: 0;
+  margin: 0;
+  float: left;
+  outline: 1px solid #b4b4b4;
+}
+
+#grid .tile {
+  width: 128px;
+  height: 128px;
+  outline: 1px solid #b4b4b4;
+  float: left;
+  line-height: 128px;
+  text-align: center;
+  font-size: 64px;
+}
+
+#grid .tile.winning {
+  color: #0f0;
+}
