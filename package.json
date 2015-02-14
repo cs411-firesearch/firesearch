@@ -1,20 +1,14 @@
 {
-  "name": "firesearch",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "name": "node-server-example",
+  "version": "0.0.1",
+  "description": "Example Node Server Todo List",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.9.0",
+    "express": "^4.9.6",
+    "supervisor": "^0.6.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/hzding621/firesearch.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/hzding621/firesearch/issues"
-  },
-  "homepage": "https://github.com/hzding621/firesearch"
+    "start": "supervisor server.js"
+  }
 }
