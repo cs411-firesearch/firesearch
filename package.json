@@ -1,16 +1,20 @@
 {
-  "name": "tic-tac-toe-flux",
-  "version": "0.0.1",
-  "main": "js/app.js",
-  "dependencies": {
-    "backbone": "^1.1.2",
-    "browserify": "~4.2.2",
-    "handlebars": "^2.0.0",
-    "jquery-browserify": "^1.8.1",
-    "supervisor": "^0.6.0",
-    "watchify": "~0.10.2"
-  },
+  "name": "firesearch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
   "scripts": {
-    "start": "watchify -o js/bundle.js -v -d ."
-  }
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hzding621/firesearch.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hzding621/firesearch/issues"
+  },
+  "homepage": "https://github.com/hzding621/firesearch"
 }
