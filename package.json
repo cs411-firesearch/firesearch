@@ -1,11 +1,13 @@
 {
-    "name": "firesearch"
-  , "version": "1.0.0"
-  , "dependencies": {
+  "name": "firesearch",
+  "version": "1.0.0",
+  "repository" : { 
+    "type" : "git", 
+    "url" : "https://github.com/hzding621/firesearch.git"
+    },
+  "main": "server.js",
+  "dependencies": {
       "express": "2.5.10"
     , "jade": ">= 0.0.1"
-  }
-  , "scripts": {
-  	  "start": "node app.js"
-  }
+  },
 }
