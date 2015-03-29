@@ -9,5 +9,8 @@
   "dependencies": {
       "express": "2.5.10"
     , "jade": ">= 0.0.1"
+  },
+  "script": {
+      "start": "node server.js"
   }
 }
