@@ -3,9 +3,10 @@ var utils = require('../utils/utils');
 
 var pool = db.createPool({
 	connectionLimit: 100,
-	host	: 'localhost',
-	user	: 'root',
-	password: 'password',
+	host	: process.env.OPENSHIFT_MYSQL_DB_HOST || 'localhost',
+  port  : process.env.OPENSHIFT_MYSQL_DB_PORT || 3337,
+	user	: process.env.OPENSHIFT_MYSQL_DB_USERNAME || 'root',
+	password: process.env.OPENSHIFT_MYSQL_DB_PASSWORD || 'password',
 	database: 'blog'
 });
 
