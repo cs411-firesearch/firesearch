@@ -4,23 +4,23 @@
 
 // For a real app, you'd make database requests here.
 // For this example, "data" acts like an in-memory "database"
-var data = {
-  "posts": [
-    {
-      "title": "Lorem ipsum",
-      "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-    },
-    {
-      "title": "Sed egestas",
-      "text": "Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus."
-    }
-  ]
-};
-
-// GET
+// var data = {
+//   "posts": [
+//     {
+//       "title": "Lorem ipsum",
+//       "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+//     },
+//     {
+//       "title": "Sed egestas",
+//       "text": "Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus."
+//     }
+//   ]
+// };
 
 var db = require('../db/db')
 var utils = require('../utils/utils')
+
+// GET
 
 exports.posts = function (req, res) {
   // var posts = [];
