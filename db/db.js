@@ -45,7 +45,7 @@ db.readStock = function(id, callback) {
 
 db.readComp = function(id, callback) {
   pool.getConnection(function(err, conn) {
-    conn.query('SELECT * FROM Company WHERE id = ?', [+id], function(err, rows) {
+    conn.query('SELECT * FROM Company WHERE CompanyId = ?', [+id], function(err, rows) {
       conn.release();
       if (utils.isEmpty(rows)) {
         callback(err, {});
