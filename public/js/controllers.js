@@ -3,26 +3,47 @@
 /* Controllers */
 
 function IndexCtrl($scope, $http) {
-  $http.get('/api/posts').
+  $http.get('/api/stocks').
     success(function(data, status, headers, config) {
-      $scope.posts = data.posts;
+      $scope.stocks = data.stocks;
+    });
+  $http.get('/api/comps').
+    success(function(data, status, headers, config) {
+      $scope.comps = data.comps;
     });
 }
 
-function AddPostCtrl($scope, $http, $location) {
+function AddCompCtrl($scope, $http, $location) {
   $scope.form = {};
   $scope.submitPost = function () {
-    $http.post('/api/post', $scope.form).
+    $http.post('/api/addComp', $scope.form).
       success(function(data) {
         $location.path('/');
       });
   };
 }
 
-function ReadPostCtrl($scope, $http, $routeParams) {
-  $http.get('/api/post/' + $routeParams.id).
+function AddStockCtrl($scope, $http, $location) {
+  $scope.form = {};
+  $scope.submitPost = function() {
+    $http.post('/api/addStock', $scope.form).
+      success(function(data) {
+        $location.path('/');
+      });
+  }
+}
+
+function ReadCompCtrl($scope, $http, $routeParams) {
+  $http.get('/api/comp/' + $routeParams.id).
     success(function(data) {
-      $scope.post = data.post;
+      $scope.comp = data.comp;
+    });
+}
+
+function ReadStockCtrl($scope, $http, $routeParams) {
+  $http.get('/api/stock/' + $routeParams.id).
+    success(function(data) {
+      $scope.stock = data.stock;
     });
 }
 

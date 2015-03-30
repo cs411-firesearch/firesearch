@@ -41,10 +41,15 @@ app.get('/partials/:name', routes.partials);
 
 // JSON API
 
-app.get('/api/posts', api.posts);
+app.get('/api/stocks', api.stocks);
+app.get('/api/comps', api.comps);
 
-app.get('/api/post/:id', api.post);
-app.post('/api/post', api.addPost);
+app.get('/api/comp/:id', api.comp)
+app.get('/api/stock/:id', api.stock);
+
+app.post('/api/addComp', api.addComp);
+app.post('/api/addStock', api.addStock);
+
 app.put('/api/post/:id', api.editPost);
 app.delete('/api/post/:id', api.deletePost);
 

@@ -22,7 +22,7 @@ var utils = require('../utils/utils')
 
 // GET
 
-exports.posts = function (req, res) {
+exports.stocks = function (req, res) {
   // var posts = [];
   // data.posts.forEach(function (post, i) {
   //   posts.push({
@@ -38,13 +38,21 @@ exports.posts = function (req, res) {
   
   db.readAll(function(err, rows) {
     res.json({
-      posts: rows
+      stocks: rows
     });
   });
 
 };
 
-exports.post = function (req, res) {
+exports.comps = function(req, res) {
+  db.readAllCompanies(function(err, rows) {
+    res.json({
+      comps: rows
+    });
+  });
+}
+
+exports.stock = function (req, res) {
   // var id = req.params.id;
   // if (id >= 0 && id < data.posts.length) {
   //   res.json({
@@ -54,24 +62,48 @@ exports.post = function (req, res) {
   //   res.json(false);
   // }
   var id = req.params.id;
-  db.read(id, function(err, row) {
+  db.readStock(id, function(err, row) {
     if (utils.isEmpty(row)) {
       res.json(false);
     } else {
       res.json({
-        post: row
+        stock: row
       })
     }
   })
 
 };
 
+exports.comp = function(req, res) {
+  var id = req.params.id;
+  db.readComp(id, function(err, row) {
+    if (utils.isEmpty(row)) {
+      res.json(false);
+    } else {
+      res.json({
+        comp: row
+      })
+    }
+  })
+}
+
 // POST
 
-exports.addPost = function (req, res) {
+exports.addComp = function (req, res) {
   // data.posts.push(req.body);
   // res.json(req.body);
-  db.insert(req.body, function(err, newRow) {
+  db.insertComp(req.body, function(err, newRow) {
+    if (utils.isEmpty(newRow)) {
+      res.json(false);
+    } else {
+      res.json(newRow[0]);
+    }
+  })
+};
+
+exports.addStock = function (req, res) {
+
+  db.insertStock(req.body, function(err, newRow) {
     if (utils.isEmpty(newRow)) {
       res.json(false);
     } else {

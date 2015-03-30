@@ -8,13 +8,17 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives'])
         templateUrl: 'partials/index',
         controller: IndexCtrl
       }).
-      when('/addPost', {
-        templateUrl: 'partials/addPost',
-        controller: AddPostCtrl
+      when('/addComp', {
+        templateUrl: 'partials/addComp',
+        controller: AddCompCtrl
       }).
-      when('/readPost/:id', {
-        templateUrl: 'partials/readPost',
-        controller: ReadPostCtrl
+      when('/addStock', {
+        templateUrl: 'partials/addStock',
+        controller: AddStockCtrl
+      }).
+      when('/readStock/:id', {
+        templateUrl: 'partials/readStock',
+        controller: ReadStockCtrl
       }).
       when('/editPost/:id', {
         templateUrl: 'partials/editPost',
@@ -23,6 +27,10 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives'])
       when('/deletePost/:id', {
         templateUrl: 'partials/deletePost',
         controller: DeletePostCtrl
+      }).
+      when('/readComp/:id', {
+        templateUrl: 'partials/readComp',
+        controller: ReadCompCtrl
       }).
       otherwise({
         redirectTo: '/'

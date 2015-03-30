@@ -1,0 +1,29 @@
+h2 Add a new stock
+label(for='CompanyId') CompanyId: 
+input(ng-model='form.CompanyId', name='CompanyId')
+br
+label(for='TransCode') TransCode: 
+input(ng-model='form.TransCode', name='TransCode')
+br
+label(for='Volume') Volume: 
+input(ng-model='form.Volume', name='Volume')
+br
+label(for='DivYield') DivYield: 
+input(ng-model='form.DivYield', name='DivYield')
+br
+label(for='Season1') Season1: 
+input(ng-model='form.Season1', name='Season1')
+br
+label(for='Season2') Season2: 
+input(ng-model='form.Season2', name='Season2')
+br
+label(for='Season3') Season3: 
+input(ng-model='form.Season3', name='Season3')
+br
+label(for='Season4') Season4: 
+input(ng-model='form.Season4', name='Season4')
+br
+// p Description:
+// textarea(ng-model='form.Description', cols='50', rows='15')
+p
+  button(ng-click='submitPost()') Add Stock
