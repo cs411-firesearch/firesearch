@@ -1,10 +1,10 @@
-p There are {{comps.length}} companies. Here are the first 10 results.
+p There are {{comps.length}} companies.
 ul
-  li(ng-repeat='c in comps | limitTo: 10')
+  li(ng-repeat='c in comps')
       span {{c.Name}} (id: {{c.CompanyId}}) 
       a(href='/readComp/{{c.CompanyId}}') More
-p There are {{stocks.length}} stocks. Here are the first 10 results.
-div(ng-repeat='s in stocks | limitTo: 10')
+p There are {{stocks.length}} stocks.
+div(ng-repeat='s in stocks')
   h3 {{s.Name}} - {{s.TransCode}}
   div Volume: {{s.Volume}} Div&Yield: {{s.DivYield}}
   span Season1: {{s.Season1}} 

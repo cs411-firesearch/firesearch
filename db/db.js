@@ -11,8 +11,7 @@ var pool = db.createPool({
 });
 
 db.searchStock = function(query, callback) {
-    
-  console.log(query.TransCode);
+  
   var q = "SELECT * FROM Issue WHERE TRUE";
   if (query.TransCode != undefined) {
     q += " AND TransCode LIKE \'%" + query.TransCode + "%\'";
