@@ -43,6 +43,7 @@ app.get('/partials/:name', routes.partials);
 
 app.get('/api/stocks', api.stocks);
 app.get('/api/comps', api.comps);
+app.get('/api/searchStock', api.searchStock);
 
 app.get('/api/comp/:id', api.comp)
 app.get('/api/stock/:id', api.stock);

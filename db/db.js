@@ -10,6 +10,35 @@ var pool = db.createPool({
 	database: 'Fire'
 });
 
+db.searchStock = function(query, callback) {
+    
+  console.log(query.TransCode);
+  var q = "SELECT * FROM Issue WHERE TRUE";
+  if (query.TransCode != undefined) {
+    q += " AND TransCode = \'" + query.TransCode + "\'";
+  }
+  if (query.VolumeLow != undefined) {
+    q += " AND Volume >= " + query.VolumeLow;
+  }
+  if (query.VolumeHigh != undefined) {
+    q += " AND Volume <= " + query.VolumeHigh;
+  }
+  if (query.DivYieldLow != undefined) {
+    q += " AND DivYield >= " + query.DivYieldLow;
+  }
+  if (query.DivYieldHigh != undefined) {
+    q += " AND DivYield <= " + query.DivYieldHigh;
+  }
+  q += ";";
+  console.log(q);
+  pool.getConnection(function(err, conn) {
+    conn.query(q, function(err, rows) {
+      conn.release();
+      callback(err, rows);
+    });
+  });
+}
+
 db.readAllCompanies = function(callback) {
   pool.getConnection(function(err, conn) {
     conn.query('SELECT * FROM Company', function(err, rows) {

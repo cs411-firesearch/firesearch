@@ -22,6 +22,14 @@ var utils = require('../utils/utils')
 
 // GET
 
+exports.searchStock = function(req, res) {
+  db.searchStock(req.query, function(err, rows) {
+    res.json({
+      stocks: rows
+    });
+  });
+};
+
 exports.stocks = function (req, res) {
   // var posts = [];
   // data.posts.forEach(function (post, i) {
