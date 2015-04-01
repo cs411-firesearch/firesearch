@@ -35,23 +35,28 @@ function AddStockCtrl($scope, $http, $location) {
 
 function SearchStockCtrl($scope, $http, $location) {
   $scope.form = {};
+
+  function isValidQuery(q) {
+    return q != undefined && q != "";
+  }
+
   $scope.searchstock = function() {
 
     var apiURL = 'api/searchStock?';
-    if ($scope.form.TransCode != undefined)
+    if (isValidQuery($scope.form.TransCode))
       apiURL += 'TransCode=' + $scope.form.TransCode + '&';
-    if ($scope.form.VolumeLow != undefined)
+    if (isValidQuery($scope.form.VolumeLow))
       apiURL += 'VolumeLow=' + $scope.form.VolumeLow + '&';
-    if ($scope.form.VolumeHigh != undefined)
+    if (isValidQuery($scope.form.VolumeHigh))
       apiURL += 'VolumeHigh=' + $scope.form.VolumeHigh + '&';
-    if ($scope.form.DivYieldLow != undefined)
+    if (isValidQuery($scope.form.DivYieldLow))
       apiURL += 'DivYieldLow=' + $scope.form.DivYieldLow + '&';
-    if ($scope.form.DivYieldHigh != undefined)
+    if (isValidQuery($scope.form.DivYieldHigh))
       apiURL += 'DivYieldHigh=' + $scope.form.DivYieldHigh + '&';
  
     $http.get(apiURL).
       success(function(data){
-        $scope.data = data;
+        $scope.data = data.stocks;
       });
   }
 }
