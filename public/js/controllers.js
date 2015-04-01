@@ -33,6 +33,29 @@ function AddStockCtrl($scope, $http, $location) {
   }
 }
 
+function SearchStockCtrl($scope, $http, $location) {
+  $scope.form = {};
+  $scope.searchstock = function() {
+
+    var apiURL = 'api/searchStock?';
+    if ($scope.form.TransCode != undefined)
+      apiURL += 'TransCode=' + $scope.form.TransCode + '&';
+    if ($scope.form.VolumeLow != undefined)
+      apiURL += 'VolumeLow=' + $scope.form.VolumeLow + '&';
+    if ($scope.form.VolumeHigh != undefined)
+      apiURL += 'VolumeHigh=' + $scope.form.VolumeHigh + '&';
+    if ($scope.form.DivYieldLow != undefined)
+      apiURL += 'DivYieldLow=' + $scope.form.DivYieldLow + '&';
+    if ($scope.form.DivYieldHigh != undefined)
+      apiURL += 'DivYieldHigh=' + $scope.form.DivYieldHigh + '&';
+ 
+    $http.get(apiURL).
+      success(function(data){
+        $scope.data = data;
+      });
+  }
+}
+
 function ReadCompCtrl($scope, $http, $routeParams) {
   $http.get('/api/comp/' + $routeParams.id).
     success(function(data) {
@@ -79,3 +102,5 @@ function DeletePostCtrl($scope, $http, $location, $routeParams) {
     $location.url('/');
   };
 }
+
+

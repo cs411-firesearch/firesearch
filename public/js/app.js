@@ -32,6 +32,10 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives'])
         templateUrl: 'partials/readComp',
         controller: ReadCompCtrl
       }).
+      when('/searchStock',{                     //newly added
+        templateUrl: 'partials/searchStock',
+        controller: SearchStockCtrl 
+      }).
       otherwise({
         redirectTo: '/'
       });
