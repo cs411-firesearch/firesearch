@@ -9,7 +9,7 @@ br
 label(for='VolumeHigh') VolumeHigh:
 input(ng-model='form.VolumeHigh',name='VolumeHigh')
 br
-label(for='DivYieldLow') DicYieldLow:
+label(for='DivYieldLow') DivYieldLow:
 input(ng-model='form.DivYieldLow',name='DivYieldLow')
 br
 label(for='DivYieldHigh') DivYieldHigh:
@@ -19,6 +19,8 @@ p
   button(ng-click='searchstock()') Search Stock
 
 div(ng-if="data.length>0") There are {{data.length}} results.
+div(ng-if="data.length==0") There is no corresponding result.
+
 div(ng-repeat='s in data')
   h3 {{s.TransCode}}
   div Volume: {{s.Volume}} Div&Yield: {{s.DivYield}}
