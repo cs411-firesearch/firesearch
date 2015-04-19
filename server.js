@@ -41,18 +41,21 @@ app.get('/partials/:name', routes.partials);
 
 // JSON API
 
-app.get('/api/stocks', api.stocks);
-app.get('/api/comps', api.comps);
 app.get('/api/searchStock', api.searchStock);
+app.get('/api/comps', api.getAllCompanies);
+app.get('/api/stocks', api.getAllStocks);
 
-app.get('/api/comp/:id', api.comp)
-app.get('/api/stock/:id', api.stock);
+app.get('/api/comp/:id', api.getCompany)
+app.get('/api/stock/:id', api.getStock);
 
-app.post('/api/addComp', api.addComp);
-app.post('/api/addStock', api.addStock);
+app.post('/api/addComp', api.insertCompany);
+app.post('/api/addStock', api.insertStock);
 
-app.put('/api/post/:id', api.editPost);
-app.delete('/api/post/:id', api.deletePost);
+app.post('/api/buyStock', api.buyStock);
+app.post('/api/sellStock', api.sellStock);
+
+// app.put('/api/post/:id', api.editPost);
+// app.delete('/api/post/:id', api.deletePost);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);
