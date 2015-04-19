@@ -3,8 +3,8 @@ extends layout
 block body
   div
     h2 Firesearch
-    ul
-      li
+    ul(class='nav nav-tabs')
+      li(class='active')
         a(href='/') Home
       li
         a(href='/addComp') Register a company
@@ -22,3 +22,4 @@ block body
   script(src='js/controllers.js')
   script(src='js/filters.js')
   script(src='js/directives.js')
+  script(src='js/nav.js')
