@@ -29,7 +29,6 @@ exports.getAllStocks = function (req, res) {
       stocks: rows
     });
   });
-
 };
 
 exports.getCompany = function(req, res) {
@@ -37,20 +36,17 @@ exports.getCompany = function(req, res) {
   db.getCompany(id, function(err, row) {
     res.json({
         comp: row
-      })
-    }
-  })
-}
+    });
+  });
+};
 
 exports.getStock = function (req, res) {
   var id = req.params.id;
   db.getStock(id, function(err, row) {
     res.json({
         stock: row
-      })
-    }
-  })
-
+    });
+  });
 };
 
 // POST
@@ -78,8 +74,8 @@ exports.buyStock = function(req, res) {
       res.json(false);
     else
       res.json({});
-  })
-}
+  });
+};
 
 exports.sellStock = function(req, res) {
   db.sellStock(req.body, function(err, res) {
@@ -87,8 +83,8 @@ exports.sellStock = function(req, res) {
       res.json(false);
     else
       res.json({});
-  })
-}
+  });
+};
 
 // PUT
 
