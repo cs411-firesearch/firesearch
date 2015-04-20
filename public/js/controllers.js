@@ -65,6 +65,36 @@ function LogInCtrl($scope, $http, $location, $window, AuthService){
   }
 }
 
+
+function ReadStockCtrl($scope, $http, $routeParams, $window, $location, $rootScope) {
+  $http.get('/api/stock/' + $routeParams.id).
+    success(function(data) {
+      $scope.stock = data.stock;
+    });
+  $scope.addStock = function(){
+    if ($scope.add.volume <= 0){
+      $window.alert("Please put a valid volume!");
+      return;
+    }
+    else{
+      $scope.mayBuy = true;
+      $scope.proceedAdd = function(){
+        $scope.add.UserId = $rootScope.user.UserId;
+        $scope.add.StockId = $scope.stock.StockId;
+        $scope.add.Volume = $scope.add.volume;
+        $http.post('/api/buyStock',$scope.add).
+        success(function(data){
+           $window.alert("Add stock successfully!");
+           $location.path('/');
+        });
+     }
+     $scope.declineAdd = function(){
+        $location.path('/');
+      }
+    }
+  }
+}
+
 function SignUpCtrl($scope, $http){
   $scope.form = {};
   $scope.submitPost = function(){
@@ -110,12 +140,7 @@ function ReadCompCtrl($scope, $http, $routeParams) {
     });
 }
 
-function ReadStockCtrl($scope, $http, $routeParams) {
-  $http.get('/api/stock/' + $routeParams.id).
-    success(function(data) {
-      $scope.stock = data.stock;
-    });
-}
+
 
 
 /*
