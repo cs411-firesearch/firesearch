@@ -48,20 +48,24 @@ function AddStockCtrl($scope, $http, $location) {
   }
 }
 
-function LogInCtrl($scope, $http, $location, $window, $cookieStore){
+function LogInCtrl($scope, $http, $location, $window, AuthService){
   $scope.form = {};
-  $scope.submitPost = function(){
-    $http.post('/login', $scope.form).
-      success(function(data){
-        if (data.success) {
-          $window.alert("Login In Succeed.");
-          $location.path('/');
-          // $cookieStore.put('user', data.user);
-        }
-        else {
-          $window.alert("Login In Failed.");
-        }
-      });
+  $scope.submitPost = function() {
+    if (!$scope.form.username || !$scope.form.password) {
+      $scope.invalidinput = true;
+      return;
+    }
+    $scope.invalidinput = false;
+    AuthService.logIn($scope.form, function(data){
+      if (data.success) {
+        $window.alert("Login In Succeed.");
+        $location.path('/');
+        // $cookieStore.put('user', data.user);
+      }
+      else {
+        $window.alert("Login In Failed.");
+      }
+    });
   }
 }
 

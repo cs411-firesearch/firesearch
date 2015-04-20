@@ -48,8 +48,11 @@ auth.restrict = function(req, res, next) {
 		next();
 	} else {
 		// console.log('Wrong.');
-		req.session.error = 'Access denied!';
-		res.redirect('/login');
+		// res.redirect('/login');
+		// req.session.error = 'Access denied!';
+		res.json({
+			loggedIn: false
+		})
 	}
 }
 

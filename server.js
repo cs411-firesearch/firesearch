@@ -25,7 +25,8 @@ app.configure(function(){
 	app.use(express.bodyParser());
 	app.use(express.cookieParser());
 	app.use(express.session({
-	  secret: 'firesearch',
+	  secret: 'firesearch'
+	 // ,cookie: { path: '/', httpOnly: false, secure: false, maxAge: null }
 	}
 	));
 	app.use(function(req, res, next){
@@ -63,24 +64,25 @@ app.get('/partials/:name', routes.partials);
 
 // JSON API
 
-app.get('/api/searchStock', api.searchStock);
-app.get('/api/comps', api.getAllCompanies);
-app.get('/api/stocks', api.getAllStocks);
+app.get('/api/searchStock', auth.restrict, api.searchStock);
+app.get('/api/comps', auth.restrict, api.getAllCompanies);
+app.get('/api/stocks', auth.restrict, api.getAllStocks);
 
-app.get('/api/comp/:id', api.getCompany)
-app.get('/api/stock/:id', api.getStock);
+app.get('/api/comp/:id', auth.restrict, api.getCompany)
+app.get('/api/stock/:id', auth.restrict, api.getStock);
 
-app.post('/api/addComp', api.insertCompany);
-app.post('/api/addStock', api.insertStock);
+app.post('/api/addComp', auth.restrict, api.insertCompany);
+app.post('/api/addStock', auth.restrict, api.insertStock);
 
-app.post('/api/buyStock', api.buyStock);
-app.post('/api/sellStock', api.sellStock);
+app.post('/api/buyStock', auth.restrict, api.buyStock);
+app.post('/api/sellStock', auth.restrict, api.sellStock);
 
-app.get('/checklogin', auth.checkLoggedIn);
+// Authentication API
 
-app.get('/logout', auth.logout);
-app.post('/login', auth.login);
-app.post('/signup', auth.signup)
+app.get('/auth/checklogin', auth.checkLoggedIn);
+app.get('/auth/logout', auth.logout);
+app.post('/auth/login', auth.login);
+app.post('/auth/signup', auth.signup)
 
 app.get('/restricted', auth.restrict, function(req, res){
 	res.send('Wahoo! restricted area, click to <a href="/logout">logout</a>');                                                                                                                                                                                                                                                                                                                                                                                                                                                                            

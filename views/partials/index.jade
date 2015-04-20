@@ -3,20 +3,21 @@ h3(ng-show='user.userId') Hello, {{user.userName}}.
 h3(ng-hide='user.userId') Hello, please 
   a(href='/loginpage') log in
 br
-p There are {{comps.length}} companies.
-ul
-  li(ng-repeat='c in comps')
-    span {{c.Name}} (id: {{c.CompanyId}}) 
-    a(href='/readComp/{{c.CompanyId}}') More
-p There are {{stocks.length}} stocks.
-div(ng-repeat='s in stocks')
-  h3 {{s.Name}} - {{s.TransCode}}
-  div Volume: {{s.Volume}} Div&Yield: {{s.DivYield}}
-  span Season1: {{s.Season1}} 
-  span Season2: {{s.Season2}} 
-  span Season3: {{s.Season3}} 
-  span Season4: {{s.Season4}}
-  br
-  //h4 Description
-  //div {{s.Description}}
-  a(href='/readStock/{{s.StockId}}') More
+div(ng-show='user.userId')
+  p There are {{comps.length}} companies.
+  ul
+    li(ng-repeat='c in comps')
+      span {{c.Name}} (id: {{c.CompanyId}}) 
+      a(href='/readComp/{{c.CompanyId}}') More
+  p There are {{stocks.length}} stocks.
+  div(ng-repeat='s in stocks')
+    h3 {{s.Name}} - {{s.TransCode}}
+    div Volume: {{s.Volume}} Div&Yield: {{s.DivYield}}
+    span Season1: {{s.Season1}} 
+    span Season2: {{s.Season2}} 
+    span Season3: {{s.Season3}} 
+    span Season4: {{s.Season4}}
+    br
+    //h4 Description
+    //div {{s.Description}}
+    a(href='/readStock/{{s.StockId}}') More
