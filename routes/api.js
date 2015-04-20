@@ -51,38 +51,54 @@ exports.getStock = function (req, res) {
 
 // POST
 exports.insertCompany = function (req, res) {
-  db.insertCompany(req.body, function(err, res) {
+  db.insertCompany(req.body, function(err, result) {
     if (err)
       res.json(false);
+    else if (result.affectedRows !== undefined)
+      res.json({ success: true })
+    else if (result.error)
+      res.json( {success: false, error: result.error})
     else
-      res.json({});
+      res.json({ success: false });
   });
 };
 
 exports.insertStock = function (req, res) {
-  db.insertStock(req.body, function(err, newRow) {
+  db.insertStock(req.body, function(err, result) {
     if (err)
       res.json(false);
+    else if (result.affectedRows !== undefined)
+      res.json({ success: true })
+    else if (result.error)
+      res.json( {success: false, error: result.error})
     else
-      res.json({})
+      res.json({ success: false });
   });
 };
 
 exports.buyStock = function(req, res) {
-  db.buyStock(req.body, function(err, res) { 
+  db.buyStock(req.body.UserId, req.body.StockId, req.body.Volume, function(err, result) {
     if (err)
       res.json(false);
+    else if (result.affectedRows !== undefined)
+      res.json({ success: true })
+    else if (result.error)
+      res.json( {success: false, error: result.error})
     else
-      res.json({});
+      res.json({ success: false });
   });
 };
 
 exports.sellStock = function(req, res) {
-  db.sellStock(req.body, function(err, res) {
+  db.sellStock(req.body.UserId, req.body.StockId, req.body.Volume, function(err, result) {
     if (err)
       res.json(false);
+    else if (result.affectedRows !== undefined)
+      res.json({ success: true })
+    else if (result.error)
+      res.json( {success: false, error: result.error})
     else
-      res.json({});
+      res.json({ success: false });
   });
 };
 

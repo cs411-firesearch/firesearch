@@ -18,7 +18,7 @@ db.signup = function(user, callback ) {
       callback(err, null);
     } else {
       pool.getConnection(function(err, conn) {
-        conn.query('INSERT INTO User (Username, Email, Salt, Hash) VALUES (?, ?, ?)', [user['Username'], user['Email'], user['Salt'], user['Hash']], function(err, res) {
+        conn.query('INSERT INTO User (Username, Email, Salt, Hash) VALUES (?, ?, ?, ?)', [user['Username'], user['Email'], user['Salt'], user['Hash']], function(err, res) {
           if (err)
             console.log(err);
           conn.release();
@@ -136,7 +136,7 @@ db.insertCompany = function(newRow, callback) {
       // db.read(newId, function(err, row) {
       //   callback(err, row);
       // });
-      callback(err, {});
+      callback(err, res);
     });
   });
   
@@ -151,8 +151,8 @@ db.insertStock = function(newRow, callback) {
         console.log(err);
       conn.release();
       if (utils.isEmpty(rows)) {
-        console.log('could not find company id.');
-        callback(err, {});
+        // console.log('could not find company id.');
+        callback(err, {error: ' Could not find company id'});
       } else {
         pool.getConnection(function(err, conn){
           conn.query('INSERT INTO Stock (TransCode, Volume, DivYield, Season1, Season2, Season3, Season4, CompanyId) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [newRow['TransCode'], newRow['Volume'], newRow['DivYield'], newRow['Season1'],newRow['Season2'],newRow['Season3'],newRow['Season4'], newRow['CompanyId']], function(err, res) {
@@ -163,7 +163,7 @@ db.insertStock = function(newRow, callback) {
             // db.read(newId, function(err, row) {
             //   callback(err, row);
             // });
-            callback(err, {});
+            callback(err, res);
           });
         });
       }
@@ -174,70 +174,71 @@ db.insertStock = function(newRow, callback) {
 var updateOwn = function(updateType, userId, stockId, Volume, Price, callback) {
   pool.getConnection(function(err, conn) {
     if (updateType == 0) {
-      conn.query('INSERT INTO Own (UserId, StockId, Volume, Price) VALUES (?, ?, ?, ?)', [[+userId], [+stockId], [+Volume], [+Price]], function(err, res) {
+      conn.query('INSERT INTO Own (UserId, StockId, Volume, Price) VALUES (?, ?, ?, ?)', [[+userId], [+stockId], [+Volume], [+Price]], function(err, result) {
         if (err)
           console.log(err);
         conn.release();
-        callback(err, {});
+        callback(err, result);
       });  
     } else if (updateType == 1) {
-      conn.query('UPDATE Own SET Volume = ?, Price = ? WHERE UserId = ? AND StockId = ?', [[+Volume], [+Price], [+UserId], [+StockId]], function(err, res) {
+      conn.query('UPDATE Own SET Volume = ?, Price = ? WHERE UserId = ? AND StockId = ?', [[+Volume], [+Price], [+userId], [+stockId]], function(err, result) {
         if (err)
           console.log(err);
         conn.release();
-        callback(err, {});
+        callback(err, result);
       });
     } else if (updateType == 2) {
-      conn.query('DELETE FROM Own WHERE UserId = ? AND StockId = ?', [[+userId], [+stockId]], function(err, res) {
+      conn.query('DELETE FROM Own WHERE UserId = ? AND StockId = ?', [[+userId], [+stockId]], function(err, result) {
         if (err)
           console.log(err);
         conn.release();
-        callback(err, {});
+        callback(err, result);
       })
     }
   });
 }
 
-var getCurrentPrice = function(stockId, callback, respondCallBack) {
+var getCurrentPrice = function(stockId, callback, next) {
   pool.getConnection(function(err, conn) {
     conn.query('SELECT Season1, Season2, Season3, Season4 FROM Stock WHERE StockId = ?', [+stockId], function(err, res) {
       conn.release();
       if (err)
         console.log(err);
-      callback(err, res, respondCallBack);
+      callback(err, res[0], next);
     });
   });
 }
 
 var updateUserBalance = function(userId, balanceOffset, callback) {
   pool.getConnection( function(err, conn) {
-    conn.query('UPDATE User SET Balance = Balance + ? WHERE UserId = ?', [[+userId], [+balanceOffset]], function(err, res){
+    conn.query('UPDATE User SET Balance = Balance + ? WHERE UserId = ?', [[+balanceOffset], [+userId]], function(err, result){
       conn.release();
       if (err)
         console.log(err);
-      callback(err, {});
+      callback(err, result);
     });
   });
 }
 
 
-db.buyStock = function(userRequest, callback) {
-  var userId = userRequest.userId;
-  var stockId = userRequest.stockId;
-  var buyVolume = userRequest.buyVolume;
+db.buyStock = function(userId, stockId, buyVolume, callback) {
   var getPriceCallback = function(err, prices, callback) {
-    var currentPrice = prices.Season4;
+    var currentPrice = parseFloat(prices.Season4);
     pool.getConnection( function(err, conn) {
-      conn.query('SELECT * FROM Own WHERE UserId = ? AND stockId = ?', [[+userId], [+stockId]], function(err, res) {
+      conn.query('SELECT * FROM Own WHERE UserId = ? AND StockId = ?', [[+userId], [+stockId]], function(err, res) {
         conn.release();
-        if (err)
+        if (err) 
           console.log(err);
         if (utils.isEmpty(res)) {
           updateOwn(0, userId, stockId, buyVolume, currentPrice, callback);
         } else {
           var existOwn = res[0];
-          var newPrice = (existOwn.Price*existOwn.Volume + currentPrice*buyVolume) / (existOwn.Volume + buyVolume);
-          var newVolume = existOwn.Volume + buyVolume;
+          var a = parseFloat(existOwn.Price);
+          var b = parseFloat(currentPrice);
+          var c = parseInt(existOwn.Volume);
+          var d = parseInt(buyVolume);
+          var newPrice = (a * c + b * d) / (c + d);
+          var newVolume = c + d;
           updateOwn(1, userId, stockId, newVolume, newPrice, callback);
         };
       });
@@ -248,25 +249,33 @@ db.buyStock = function(userRequest, callback) {
 }
 
 
-db.sellStock = function(userRequest, callback) {
-  var userId = userRequest.userId;
-  var stockId = userRequest.stockId;
-  var sellVolume = userRequest.sellVolume;
+db.sellStock = function(userId, stockId, sellVolume, callback) {
   var getPriceCallback = function(err, prices, callback) {
-    var currentPrice = prices.Season4;
+    var currentPrice = parseFloat(prices.Season4);
     pool.getConnection( function(err, conn) {
       conn.query('SELECT * FROM OWn WHERE UserId = ? AND StockId = ?', [[+userId], [+stockId]], function(err, res) {
         conn.release();
         if (err)
           console.log(err);
-        var oldVolume = res[0].Volume;
-        var oldPrice = res[0].Price;
-        var gain = (oldPrice - currentPrice) * sellVolume;
+        if (utils.isEmpty(res)) {
+          callback(err, {error: 'Does not own any volumes.'});
+          return;
+        }
+
+
+        var oldVolume = parseInt(res[0].Volume);
+        var oldPrice = parseFloat(res[0].Price);
+        var gain = (currentPrice - oldPrice) * parseInt(sellVolume);
 
         // here is to link two async functions
         var nextSql = function(err, res){
           updateUserBalance(userId, gain, callback);
         };
+
+        if (sellVolume > oldVolume) {
+          callback(err, {error: 'Not enough volumes.'})
+          return;
+        }
 
         if (sellVolume < oldVolume) {
           updateOwn(1, userId, stockId, oldVolume - sellVolume, oldPrice, nextSql);

@@ -74,8 +74,8 @@ app.get('/api/stock/:id', auth.restrict, api.getStock);
 app.post('/api/addComp', auth.restrict, api.insertCompany);
 app.post('/api/addStock', auth.restrict, api.insertStock);
 
-app.post('/api/buyStock', auth.restrict, api.buyStock);
-app.post('/api/sellStock', auth.restrict, api.sellStock);
+app.post('/api/buyStock', api.buyStock);
+app.post('/api/sellStock', api.sellStock);
 
 // Authentication API
 
