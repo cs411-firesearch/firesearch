@@ -1,8 +1,13 @@
+h3(ng-show='user.userId') Hello, {{user.userName}}. 
+  a(href='' ng-click='logout()') Log out.
+h3(ng-hide='user.userId') Hello, please 
+  a(href='/loginpage') log in
+br
 p There are {{comps.length}} companies.
 ul
   li(ng-repeat='c in comps')
-      span {{c.Name}} (id: {{c.CompanyId}}) 
-      a(href='/readComp/{{c.CompanyId}}') More
+    span {{c.Name}} (id: {{c.CompanyId}}) 
+    a(href='/readComp/{{c.CompanyId}}') More
 p There are {{stocks.length}} stocks.
 div(ng-repeat='s in stocks')
   h3 {{s.Name}} - {{s.TransCode}}

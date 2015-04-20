@@ -76,6 +76,8 @@ app.post('/api/addStock', api.insertStock);
 app.post('/api/buyStock', api.buyStock);
 app.post('/api/sellStock', api.sellStock);
 
+app.get('/checklogin', auth.checkLoggedIn);
+
 app.get('/logout', auth.logout);
 app.post('/login', auth.login);
 app.post('/signup', auth.signup)

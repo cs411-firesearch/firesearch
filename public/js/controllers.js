@@ -2,7 +2,15 @@
 
 /* Controllers */
 
-function IndexCtrl($scope, $http) {
+function IndexCtrl($scope, $http, AuthService, $location) {
+  $scope.user = {};
+  AuthService.getCurrentUser(function(user) {
+    $scope.user = user;
+  });
+  $scope.logout = function(){
+    $scope.user = {};
+    AuthService.logOut();
+  };
   $http.get('/api/stocks').
     success(function(data, status, headers, config) {
       $scope.stocks = data.stocks;
@@ -46,7 +54,6 @@ function LogInCtrl($scope, $http, $location, $window, $cookieStore){
     $http.post('/login', $scope.form).
       success(function(data){
         if (data.success) {
-          console.log(data)
           $window.alert("Login In Succeed.");
           $location.path('/');
           // $cookieStore.put('user', data.user);
