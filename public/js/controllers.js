@@ -40,14 +40,16 @@ function AddStockCtrl($scope, $http, $location) {
   }
 }
 
-function LogInCtrl($scope, $http, $location, $window){
+function LogInCtrl($scope, $http, $location, $window, $cookieStore){
   $scope.form = {};
   $scope.submitPost = function(){
     $http.post('/login', $scope.form).
       success(function(data){
         if (data.success) {
+          console.log(data)
           $window.alert("Login In Succeed.");
           $location.path('/');
+          // $cookieStore.put('user', data.user);
         }
         else {
           $window.alert("Login In Failed.");

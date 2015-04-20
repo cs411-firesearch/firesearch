@@ -20,16 +20,14 @@ app.configure(function(){
 	app.set('view options', {
 		layout: false
 	});
-	app.use(express.bodyParser());
 	app.use(express.methodOverride());
 	app.use(express.static(__dirname + '/public'));
+	app.use(express.bodyParser());
 	app.use(express.cookieParser());
 	app.use(express.session({
-	  secret: 'keyboard cat',
-	  resave: false,
-	  saveUninitialized: true,
-	  cookie: { secure: true }
-	}));
+	  secret: 'firesearch',
+	}
+	));
 	app.use(function(req, res, next){
 		var err = req.session.error
 		, msg = req.session.success;
@@ -78,7 +76,7 @@ app.post('/api/addStock', api.insertStock);
 app.post('/api/buyStock', api.buyStock);
 app.post('/api/sellStock', api.sellStock);
 
-// app.get('/logout', auth.logout);
+app.get('/logout', auth.logout);
 app.post('/login', auth.login);
 app.post('/signup', auth.signup)
 

@@ -30,10 +30,10 @@ auth.authenticate = function (name, pass, fn) {
 
 auth.restrict = function(req, res, next) {
 	if (req.session.user) {
+		console.log(req.session);
 		next();
 	} else {
 		console.log('Wrong.');
-		console.log(req.session);
 		req.session.error = 'Access denied!';
 		res.redirect('/login');
 	}
@@ -48,21 +48,22 @@ auth.login = function(req, res) {
 				// Store the user's primary key
 				// in the session store to be retrieved,
 				// or in this case the entire user object
-				// console.log('Log In Success!');
+				console.log('Log In Success!');
 				req.session.user = user;
-				console.log(req.session);
-				req.session.success = 'Authenticated as ' + user.Username +
-					+ ' click to <a href="/logout">logout</a>. ' 
+				req.session.success = 'Authenticated as ' + user.Username 
+				 	+ ' click to <a href="/logout">logout</a>. ' 
 					+ ' You may now access <a href="/restricted">/restricted</a>.';
 				// res.redirect('/');
+				console.log(req.session);
 				res.json({
-					success: true
+					success: true,
+					user: user
 				});
 			});
 		} else  {
 			if (err)
 				console.log(err);
-			// console.log('Log In Failed!');
+			console.log('Log In Failed!');
 			req.session.error = 'Authentication failed, please check your '
 				+ ' username and password.';
 			// res.redirect('/login');
