@@ -1,10 +1,22 @@
 section
-  h3 {{stock.Name}} - {{stock.TransCode}}
-  div Volume: {{stock.Volume}} Div&Yield: {{stock.DivYield}}
-  span Season1: {{stock.Season1}} 
-  span Season2: {{stock.Season2}} 
-  span Season3: {{stock.Season3}} 
-  span Season4: {{stock.Season4}}
-  br
-  h4 Description
-  div {{stock.Description}}
+	h3 {{stock.Name}} - {{stock.TransCode}}
+	div Volume: {{stock.Volume}} Div&Yield: {{stock.DivYield}}
+	span Season1: {{stock.Season1}} 
+	span Season2: {{stock.Season2}} 
+	span Season3: {{stock.Season3}} 
+	span Season4: {{stock.Season4}}
+	br
+	h4 Description
+	div {{stock.Description}}
+
+section
+	h4 But this Stock
+	span Enter volume here:  
+	input(type='number' ng-model='buy.volume')
+	button(ng-click='buyStock()')   Buy
+	div(ng-show='mayBuy')
+		p
+		| Are you sure you want to buy this stock for {{buy.volume}}? 
+		button(ng-click='proceedBuy()') Yes
+		|  - 
+		button(ng-click='declineBuy()') No thanks

@@ -30,10 +30,12 @@ auth.authenticate = function (name, pass, fn) {
 
 auth.checkLoggedIn = function(req, res) {
 	if (req.session.user) {
+		var userInfo = req.session.user;
+		delete userInfo.Salt;
+		delete userInfo.Hash;
 		res.json({
 			loggedIn: true,
-			userId: req.session.user.UserId,
-			userName: req.session.user.Username
+			user: userInfo
 		})
 	} else {
 		res.json({
