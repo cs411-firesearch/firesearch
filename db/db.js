@@ -10,6 +10,36 @@ var pool = db.createPool({
 	database: 'Fire'
 });
 
+db.signup = function(user, callback ) {
+  var name = user.Username;
+  db.retrieveUser(name, function(err, res) {
+    if (utils.isEmpty(res) == false)  {
+      // user already exist
+      callback(err, null);
+    } else {
+      pool.getConnection(function(err, conn) {
+        conn.query('INSERT INTO User (Username, Email, Salt, Hash) VALUES (?, ?, ?)', [user['Username'], user['Email'], user['Salt'], user['Hash']], function(err, res) {
+          if (err)
+            console.log(err);
+          conn.release();
+          callback(err, user);
+        });
+      });
+    }
+  });
+}
+
+db.retrieveUser = function(name, callback) {
+  pool.getConnection(function(err, conn) {
+    conn.query('SELECT * FROM User WHERE Username = ?', [name], function(err, res) {
+      if (err)
+        console.log(err);
+      conn.release();
+      callback(err, res);
+    })
+  })
+};
+
 db.searchStock = function(query, callback) {
   
   var q = "SELECT * FROM Stock WHERE TRUE";

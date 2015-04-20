@@ -6,32 +6,46 @@ var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
  */
 
 var express = require('express'),
-  routes = require('./routes'),
-  api = require('./routes/api');
+	routes = require('./routes'),
+	api = require('./routes/api'),
+	auth = require('./auth/auth');
 
 var app = module.exports = express.createServer();
 
 // Configuration
 
 app.configure(function(){
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
-  app.set('view options', {
-    layout: false
-  });
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(express.static(__dirname + '/public'));
-  app.use(app.router);
+	app.set('views', __dirname + '/views');
+	app.set('view engine', 'jade');
+	app.set('view options', {
+		layout: false
+	});
+	app.use(express.bodyParser());
+	app.use(express.methodOverride());
+	app.use(express.static(__dirname + '/public'));
+	app.use(app.router);
 });
 
 
 app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+	app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app.configure('production', function(){
-  app.use(express.errorHandler());
+	app.use(express.errorHandler());
+});
+
+// Authentication
+
+app.use(function(req, res, next){
+	var err = req.session.error
+	, msg = req.session.success;
+	delete req.session.error;
+	delete req.session.success;
+	res.locals.message = ''; 
+	if (err) res.locals.message = '<p class="msg error">' + err + '</p>';
+	if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>';
+	next();
 });
 
 // Routes
@@ -54,6 +68,10 @@ app.post('/api/addStock', api.insertStock);
 app.post('/api/buyStock', api.buyStock);
 app.post('/api/sellStock', api.sellStock);
 
+app.get('/logout', auth.logout);
+app.post('/login', auth.login);
+app.post('/signup', auth.signup)
+
 // app.put('/api/post/:id', api.editPost);
 // app.delete('/api/post/:id', api.deletePost);
 
@@ -63,5 +81,5 @@ app.get('*', routes.index);
 // Start server
 
 app.listen(server_port, server_ip_address, function(){
-  console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+	console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 });
