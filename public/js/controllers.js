@@ -33,6 +33,26 @@ function AddStockCtrl($scope, $http, $location) {
   }
 }
 
+function LogInCtrl($scope, $http, $location){
+  $scope.form = {};
+  $scope.submitPost = function(){
+    $http.post('/api/login', $scope.form).
+      success(function(data)){
+       $location.path('/');
+      });
+  }
+}
+
+function SignUpCtrl($scope, $http, %location){
+  $scope.form = {};
+  $scope.submitPost = function(){
+    $http.post('/api/signup', $scope.form).
+      success(function(data)){
+        $location.path('/');
+      });
+  }
+}
+
 function SearchStockCtrl($scope, $http, $location) {
   $scope.form = {};
 
@@ -75,6 +95,8 @@ function ReadStockCtrl($scope, $http, $routeParams) {
     });
 }
 
+
+/*
 function EditPostCtrl($scope, $http, $location, $routeParams) {
   $scope.form = {};
   $http.get('/api/post/' + $routeParams.id).
@@ -102,6 +124,9 @@ function DeletePostCtrl($scope, $http, $location, $routeParams) {
         $location.url('/');
       });
   };
+*/
+//
+
 
   $scope.home = function () {
     $location.url('/');
