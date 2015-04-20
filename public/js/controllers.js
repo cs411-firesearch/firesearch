@@ -3,12 +3,7 @@
 /* Controllers */
 
 function IndexCtrl($scope, $http, AuthService, $location) {
-  $scope.user = {};
-  AuthService.getCurrentUser(function(user) {
-    $scope.user = user;
-  });
   $scope.logout = function(){
-    $scope.user = {};
     AuthService.logOut();
   };
   $http.get('/api/stocks').
@@ -32,6 +27,7 @@ function AddCompCtrl($scope, $http, $location) {
 }
 
 function AddStockCtrl($scope, $http, $location) {
+
   $scope.form = {};
   $scope.submit = function() {
 

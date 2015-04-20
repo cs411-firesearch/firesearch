@@ -65,25 +65,18 @@ auth.login = function(req, res) {
 				// Store the user's primary key
 				// in the session store to be retrieved,
 				// or in this case the entire user object
-				// console.log('Log In Success!');
-				req.session.user = user;
-				req.session.success = 'Authenticated as ' + user.Username 
-				 	+ ' click to <a href="/logout">logout</a>. ' 
-					+ ' You may now access <a href="/restricted">/restricted</a>.';
-				// res.redirect('/');
-				// console.log(req.session);
+				var userInfo = user;
+				delete userInfo.Salt;
+				delete userInfo.Hash;
+				req.session.user = userInfo;
 				res.json({
 					success: true,
-					user: user
+					user: userInfo
 				});
 			});
 		} else  {
 			if (err)
 				console.log(err);
-			console.log('Log In Failed!');
-			req.session.error = 'Authentication failed, please check your '
-				+ ' username and password.';
-			// res.redirect('/login');
 			res.json({
 				success: false
 			});
@@ -95,7 +88,7 @@ auth.logout = function(req, res){
 	// destroy the user's session to log them out
 	// will be re-created next request
 	req.session.destroy(function(){
-		// res.redirect('/');
+		res.json({});
 	});
 }
 
@@ -112,17 +105,21 @@ auth.signup = function(req, res) {
 		db.signup(user, function(err, user) {
 			if (user) {
 				req.session.regenerate(function(){
-				req.session.user = user;
-				req.session.success = 'Authenticated as ' + user.Username +
-					+ ' click to <a href="/logout">logout</a>. ' 
-					+ ' You may now access <a href="/restricted">/restricted</a>.';
-				res.redirect('back');
+					var userInfo = user;
+					delete userInfo.Salt;
+					delete userInfo.Hash;
+					req.session.user = userInfo;
+					res.json({
+						success: true,
+						user: userInfo
+					});
 				});
 			} 
 			else {
 				console.log(err);
-				req.session.error ='Sign up failure.';
-				res.redirect('/signup')
+				res.json({
+					success: false
+				});
 			}
 		});
 	});

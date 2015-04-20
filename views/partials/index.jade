@@ -1,9 +1,9 @@
-h3(ng-show='user.userId') Hello, {{user.userName}}. 
+h3(ng-show='user.UserId') Hello, {{user.Username}}. 
   a(href='' ng-click='logout()') Log out.
-h3(ng-hide='user.userId') Hello, please 
+h3(ng-hide='user.UserId') Hello, please 
   a(href='/loginpage') log in
 br
-div(ng-show='user.userId')
+div(ng-show='user.UserId')
   p There are {{comps.length}} companies.
   ul
     li(ng-repeat='c in comps')
