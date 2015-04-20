@@ -31,10 +31,12 @@ db.signup = function(user, callback ) {
 
 db.retrieveUser = function(name, callback) {
   pool.getConnection(function(err, conn) {
+    // console.log(name);
     conn.query('SELECT * FROM User WHERE Username = ?', [name], function(err, res) {
       if (err)
         console.log(err);
       conn.release();
+      // console.log(res);
       callback(err, res);
     })
   })

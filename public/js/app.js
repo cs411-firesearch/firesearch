@@ -20,14 +20,6 @@ angular.module('myApp', ['ngRoute','myApp.filters', 'myApp.services', 'myApp.dir
         templateUrl: 'partials/readStock',
         controller: ReadStockCtrl
       }).
-      when('/editPost/:id', {
-        templateUrl: 'partials/editPost',
-        controller: EditPostCtrl
-      }).
-      when('/deletePost/:id', {
-        templateUrl: 'partials/deletePost',
-        controller: DeletePostCtrl
-      }).
       when('/readComp/:id', {
         templateUrl: 'partials/readComp',
         controller: ReadCompCtrl
@@ -35,6 +27,10 @@ angular.module('myApp', ['ngRoute','myApp.filters', 'myApp.services', 'myApp.dir
       when('/searchStock',{                     //newly added
         templateUrl: 'partials/searchStock',
         controller: SearchStockCtrl 
+      }).
+      when('/loginpage', {
+        templateUrl: 'partials/logInUser',
+        controller: LogInCtrl
       }).
       otherwise({
         redirectTo: '/'

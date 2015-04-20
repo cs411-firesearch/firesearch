@@ -23,7 +23,25 @@ app.configure(function(){
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
 	app.use(express.static(__dirname + '/public'));
+	app.use(express.cookieParser());
+	app.use(express.session({
+	  secret: 'keyboard cat',
+	  resave: false,
+	  saveUninitialized: true,
+	  cookie: { secure: true }
+	}));
+	app.use(function(req, res, next){
+		var err = req.session.error
+		, msg = req.session.success;
+		delete req.session.error;
+		delete req.session.success;
+		res.locals.message = ''; 
+		if (err) res.locals.message = '<p class="msg error">' + err + '</p>';
+		if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>';
+		next();
+	});
 	app.use(app.router);
+
 });
 
 
@@ -37,16 +55,8 @@ app.configure('production', function(){
 
 // Authentication
 
-app.use(function(req, res, next){
-	var err = req.session.error
-	, msg = req.session.success;
-	delete req.session.error;
-	delete req.session.success;
-	res.locals.message = ''; 
-	if (err) res.locals.message = '<p class="msg error">' + err + '</p>';
-	if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>';
-	next();
-});
+
+
 
 // Routes
 
@@ -68,9 +78,13 @@ app.post('/api/addStock', api.insertStock);
 app.post('/api/buyStock', api.buyStock);
 app.post('/api/sellStock', api.sellStock);
 
-app.get('/logout', auth.logout);
+// app.get('/logout', auth.logout);
 app.post('/login', auth.login);
 app.post('/signup', auth.signup)
+
+app.get('/restricted', auth.restrict, function(req, res){
+	res.send('Wahoo! restricted area, click to <a href="/logout">logout</a>');                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+});     
 
 // app.put('/api/post/:id', api.editPost);
 // app.delete('/api/post/:id', api.deletePost);

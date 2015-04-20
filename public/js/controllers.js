@@ -40,21 +40,27 @@ function AddStockCtrl($scope, $http, $location) {
   }
 }
 
-function LogInCtrl($scope, $http, $location){
+function LogInCtrl($scope, $http, $location, $window){
   $scope.form = {};
   $scope.submitPost = function(){
-    $http.post('/api/login', $scope.form).
-      success(function(data)){
-       $location.path('/');
+    $http.post('/login', $scope.form).
+      success(function(data){
+        if (data.success) {
+          $window.alert("Login In Succeed.");
+          $location.path('/');
+        }
+        else {
+          $window.alert("Login In Failed.");
+        }
       });
   }
 }
 
-function SignUpCtrl($scope, $http, %location){
+function SignUpCtrl($scope, $http){
   $scope.form = {};
   $scope.submitPost = function(){
-    $http.post('/api/signup', $scope.form).
-      success(function(data)){
+    $http.post('/signup', $scope.form).
+      success(function(data){
         $location.path('/');
       });
   }
@@ -135,9 +141,9 @@ function DeletePostCtrl($scope, $http, $location, $routeParams) {
 //
 
 
-  $scope.home = function () {
-    $location.url('/');
-  };
-}
+//   $scope.home = function () {
+//     $location.url('/');
+//   };
+// }
 
 
