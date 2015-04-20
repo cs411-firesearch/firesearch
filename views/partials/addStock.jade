@@ -1,9 +1,11 @@
 h2 Add a new stock
 label(for='CompanyId') CompanyId: 
 input(ng-model='form.CompanyId', name='CompanyId')
+span(ng-show='invalidinput' class='red')  cannot be empty
 br
 label(for='TransCode') TransCode: 
 input(ng-model='form.TransCode', name='TransCode')
+span(ng-show='invalidinput' class='red')  cannot be empty
 br
 label(for='Volume') Volume: 
 input(ng-model='form.Volume', name='Volume')
@@ -26,4 +28,4 @@ br
 // p Description:
 // textarea(ng-model='form.Description', cols='50', rows='15')
 p
-  button(ng-click='submitPost()') Add Stock
+  button(ng-click='submit()') Add Stock
