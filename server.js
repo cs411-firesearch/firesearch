@@ -71,11 +71,13 @@ app.get('/api/stocks', auth.restrict, api.getAllStocks);
 app.get('/api/comp/:id', auth.restrict, api.getCompany)
 app.get('/api/stock/:id', auth.restrict, api.getStock);
 
-app.post('/api/addComp', auth.restrict, api.insertCompany);
-app.post('/api/addStock', auth.restrict, api.insertStock);
+// app.post('/api/addComp', auth.restrict, api.insertCompany);
+// app.post('/api/addStock', auth.restrict, api.insertStock);
 
 app.post('/api/buyStock', api.buyStock);
-app.post('/api/sellStock', api.sellStock);
+app.post('/api/sellStock', auth.restrctUserPost, api.sellStock);
+
+app.get('/api/portfolio/:id', auth.restrictUserGet, api.portfolio);
 
 // Authentication API
 

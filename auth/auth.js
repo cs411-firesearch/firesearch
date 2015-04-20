@@ -46,12 +46,28 @@ auth.checkLoggedIn = function(req, res) {
 
 auth.restrict = function(req, res, next) {
 	if (req.session.user) {
-		// console.log(req.session);
 		next();
 	} else {
-		// console.log('Wrong.');
-		// res.redirect('/login');
-		// req.session.error = 'Access denied!';
+		res.json({
+			loggedIn: false
+		})
+	}
+}
+
+auth.restrictUserPost = function(req, res, next) {
+	if (req.session.user !== undefined && req.session.user.UserId == req.body.UserId) {
+		next();
+	} else {
+		res.json({
+			loggedIn: false
+		})
+	}
+}
+
+auth.restrictUserGet = function(req, res, next) {
+	if (req.session.user !== undefined && req.session.user.UserId == req.params.id) {
+		next();
+	} else {
 		res.json({
 			loggedIn: false
 		})

@@ -10,6 +10,17 @@ var pool = db.createPool({
 	database: 'Fire'
 });
 
+db.getPortFolio = function(id, callback ) {
+  pool.getConnection(function(err, conn) {
+    conn.query('SELECT Own.StockId, Stock.TransCode, Own.Price AS BuyInPrice, Own.Volume, Stock.Season4 AS CurrentPrice FROM Own JOIN Stock ON Own.StockID = Stock.StockId WHERE UserId = ?', [+id], function(err, result) {
+      conn.release();
+      if (err)
+        console.log(err);
+      callback(err, result);
+    });
+  });
+}
+
 db.signup = function(user, callback ) {
   var name = user.Username;
   db.retrieveUser(name, function(err, res) {
@@ -61,7 +72,6 @@ db.searchStock = function(query, callback) {
     q += " AND DivYield <= " + query.DivYieldHigh;
   }
   q += ";";
-  console.log(q);
   pool.getConnection(function(err, conn) {
     conn.query(q, function(err, rows) {
       conn.release();
@@ -151,7 +161,6 @@ db.insertStock = function(newRow, callback) {
         console.log(err);
       conn.release();
       if (utils.isEmpty(rows)) {
-        // console.log('could not find company id.');
         callback(err, {error: ' Could not find company id'});
       } else {
         pool.getConnection(function(err, conn){
@@ -198,13 +207,16 @@ var updateOwn = function(updateType, userId, stockId, Volume, Price, callback) {
   });
 }
 
-var getCurrentPrice = function(stockId, callback, next) {
+var getCurrentPrice = function(stockId, next, callback) {
   pool.getConnection(function(err, conn) {
     conn.query('SELECT Season1, Season2, Season3, Season4 FROM Stock WHERE StockId = ?', [+stockId], function(err, res) {
       conn.release();
       if (err)
         console.log(err);
-      callback(err, res[0], next);
+      if (utils.isEmpty(res))
+        next(err, {error: 'StockId not found.'}, callback);
+      else
+        next(err, res[0], callback);
     });
   });
 }
@@ -223,6 +235,10 @@ var updateUserBalance = function(userId, balanceOffset, callback) {
 
 db.buyStock = function(userId, stockId, buyVolume, callback) {
   var getPriceCallback = function(err, prices, callback) {
+    if (prices.error) {
+      callback(err, prices)
+      return;
+    }
     var currentPrice = parseFloat(prices.Season4);
     pool.getConnection( function(err, conn) {
       conn.query('SELECT * FROM Own WHERE UserId = ? AND StockId = ?', [[+userId], [+stockId]], function(err, res) {
@@ -251,6 +267,10 @@ db.buyStock = function(userId, stockId, buyVolume, callback) {
 
 db.sellStock = function(userId, stockId, sellVolume, callback) {
   var getPriceCallback = function(err, prices, callback) {
+    if (prices.error) {
+      callback(err, prices)
+      return;
+    }
     var currentPrice = parseFloat(prices.Season4);
     pool.getConnection( function(err, conn) {
       conn.query('SELECT * FROM OWn WHERE UserId = ? AND StockId = ?', [[+userId], [+stockId]], function(err, res) {

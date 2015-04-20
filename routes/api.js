@@ -7,6 +7,14 @@ var utils = require('../utils/utils')
 
 // GET
 
+exports.portfolio = function(req, res) {
+  db.getPortFolio(req.params.id, function(err, result) {
+    res.json({
+      data: result
+    });
+  });
+}
+
 exports.searchStock = function(req, res) {
   db.searchStock(req.query, function(err, rows) {
     res.json({
@@ -79,7 +87,7 @@ exports.insertStock = function (req, res) {
 exports.buyStock = function(req, res) {
   db.buyStock(req.body.UserId, req.body.StockId, req.body.Volume, function(err, result) {
     if (err)
-      res.json(false);
+      res.json({});
     else if (result.affectedRows !== undefined)
       res.json({ success: true })
     else if (result.error)
