@@ -15,7 +15,7 @@ function IndexCtrl($scope, $http) {
 
 function AddCompCtrl($scope, $http, $location) {
   $scope.form = {};
-  $scope.submitPost = function () {
+  $scope.submit = function () {
     $http.post('/api/addComp', $scope.form).
       success(function(data) {
         $location.path('/');
@@ -25,11 +25,18 @@ function AddCompCtrl($scope, $http, $location) {
 
 function AddStockCtrl($scope, $http, $location) {
   $scope.form = {};
-  $scope.submitPost = function() {
-    $http.post('/api/addStock', $scope.form).
-      success(function(data) {
-        $location.path('/');
-      });
+  $scope.submit = function() {
+
+    if ($scope.form.CompanyId !== undefined || $scope.form.TransCode !== undefined) {
+      $scope.invalidinput = false;
+      $http.post('/api/addStock', $scope.form).
+        success(function(data) {
+          $location.path('/');
+        });
+    } else {
+      $scope.invalidinput = true;
+    }
+
   }
 }
 
