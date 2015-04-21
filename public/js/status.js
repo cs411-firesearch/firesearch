@@ -1,9 +1,8 @@
 myApp.controller('StatusController', function(
-	$scope, $rootScope, AuthService) {
+	$scope, $rootScope, AuthService, $location) {
 
 	AuthService.checkLogin(function(user) {
 		$rootScope.user = user;
-		// $rootScope.$broadcast('user-ready')
 	});
 
 	$scope.logout = function(){

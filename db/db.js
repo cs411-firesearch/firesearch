@@ -67,6 +67,17 @@ db.getPortFolio = function(id, callback ) {
   });
 }
 
+db.getBalance = function(id, callback) {
+  pool.getConnection(function(err, conn) {
+    conn.query('SELECT Balance FROM User WHERE UserId = ?', [id], function(err, result) {
+      conn.release();
+      if (err)
+        console.log(err);
+      callback(err, result[0]);
+    })
+  })
+}
+
 db.signup = function(user, callback ) {
   var name = user.Username;
   db.retrieveUser(name, function(err, res) {

@@ -78,6 +78,7 @@ app.post('/api/buyStock', auth.restrictUserPost, api.buyStock);
 app.post('/api/sellStock', auth.restrictUserPost, api.sellStock);
 
 app.get('/api/portfolio/:id', auth.restrictUserGet, api.portfolio);
+app.get('/api/balance/:id', auth.restrictUserGet, api.balance);
 
 // Authentication API
 
