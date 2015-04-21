@@ -44,7 +44,39 @@ function AddStockCtrl($scope, $http, $location) {
   }
 }
 
+
+
+function SignUpCtrl($scope, $http, $window, $location, AuthService) {
+  console.log("Come in to Singupctrl")
+  // $scope.form = {};
+
+  // $scope.submit = function(){
+  //   if(!$scope.form.username || $scope.form.username.length > 10){
+  //     $scope.invalidusername = true;
+  //     return;
+  //   }
+  //   $scope.invalidusername = false;
+  //   if(!$scope.form.password || $scope.form.username.length > 10){
+  //     $scope.invalidpassword = true;
+  //     return;
+  //   }
+  //   $scope.invalidpassword = false;
+  //   AuthService.signUp($scope.form, function(data){
+  //     if(data.success){
+  //       $window.alert("Sign Up Succeeds!")
+  //       $location.path('/');
+  //     }
+  //     else{
+  //       $window.alert("Sign Up Failed.");
+  //     }
+  //   });
+  // };
+
+}
+
 function LogInCtrl($scope, $http, $location, $window, AuthService){
+    console.log("Come in to LogIn")
+
   $scope.form = {};
   $scope.submitPost = function() {
     if (!$scope.form.username || !$scope.form.password) {
@@ -65,32 +97,6 @@ function LogInCtrl($scope, $http, $location, $window, AuthService){
   }
 }
 
-function SignUpCtrl($scope,$http,$window,$location,AuthService){
-  console.log("Come in to Singupctrl")
-  $scope.form = {};
-  $scope.submit = function(){
-    if(!$scope.form.username || $scope.form.username.length > 10){
-      $scope.invalidusername = true;
-      return;
-    }
-    $scope.invalidusername = false;
-    if(!$scope.form.password || $scope.form.username.length > 10){
-      $scope.invalidpassword = true;
-      return;
-    }
-    $scope.invalidpassword = false;
-    AuthService.signUp($scope.form, function(data){
-      if(data.success){
-        $window.alert("Sign Up Succeeds!")
-        $location.path('/');
-      }
-      else{
-        $window.alert("Sign Up Failed.");
-      }
-    })
-  }
-
-}
 
 function ReadStockCtrl($scope, $http, $routeParams, $window, $location, $rootScope) {
   $http.get('/api/stock/' + $routeParams.id).

@@ -28,6 +28,10 @@ var myApp = angular.module('myApp', ['ngRoute', 'ngCookies']).
         templateUrl: 'partials/searchStock',
         controller: SearchStockCtrl 
       }).
+      when('/signup',{
+        templateUrl:'partials/SignUpUser',
+        controller: SignUpCtrl
+      }).
       when('/loginpage', {
         templateUrl: 'partials/logInUser',
         controller: LogInCtrl
@@ -35,10 +39,6 @@ var myApp = angular.module('myApp', ['ngRoute', 'ngCookies']).
       when('/myPort',{
         templateUrl: 'partials/myPortfolio',
         controller: MyPortCtrl
-      }).
-      when('/signup',{
-        templateUrl:'partials/SignUpUser',
-        controller: SignUpCtrl
       }).
       otherwise({
         redirectTo: '/'
