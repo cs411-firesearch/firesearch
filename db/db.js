@@ -1,6 +1,7 @@
 var db = require('mysql')
 var utils = require('../utils/utils');
 var algo = require('../utils/algo');
+var notify = require('../utils/notify')
 var async = require('async')
 
 var pool = db.createPool({
@@ -12,8 +13,7 @@ var pool = db.createPool({
 	database: 'Fire'
 });
 
-
-db.refreshPrices = function(callback ) {
+db.refreshPrices = function(rspCallback ) {
   pool.getConnection(function(err, conn) {
     conn.query('SELECT StockId, Season1, Season2, Season3, Season4 FROM Stock', function(err, rows) {
       if (err)
@@ -32,11 +32,25 @@ db.refreshPrices = function(callback ) {
             conn.release();
             if (err)
               console.log(err);
-            next(err, result);
+            var notify = Math.abs((newSeason3 - newSeason4) / newSeason3) > 0.2;
+            if (notify) {
+              pool.getConnection(function(err, conn) {
+                conn.query('SELECT DISTINCT Email FROM Own NATURAL JOIN User WHERE StockId = ?', stockId, function(err, emails) {
+                  conn.release();
+                  if (err)
+                    console.log(err);
+                  next(err, { id: stockId, notifyUsers: emails});
+                })
+              })
+            } else {
+              next(err, { id: stockId, notifyUsers: [] });
+            }
+
           });
         });
       }, function(err, results) {
-        callback(err, results);
+
+        notify.process(err, results, rspCallback);
       });
     });
   });
