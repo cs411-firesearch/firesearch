@@ -6,4 +6,7 @@ myApp.controller('StatusController', function(
 		$rootScope.$broadcast('user-ready')
 	});
 
+	$scope.logout = function(){
+    	AuthService.logOut();
+  	};
 });
