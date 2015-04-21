@@ -95,6 +95,53 @@ function ReadStockCtrl($scope, $http, $routeParams, $window, $location, $rootSco
   }
 }
 
+function MyPortCtrl($rootScope,$scope,$http,AuthService,$location,$window){
+  $scope.stocks = []
+  $scope.maySell = []
+  $scope.sell = []
+  AuthService.checkLogin(function(user) {
+    if (user) {
+      $http.get('/api/portfolio/' + user.UserId).
+        success(function(data){
+          $scope.stocks = data.stocks;
+          for (var i in data.stocks) {
+            $scope.maySell.push(false);
+            $scope.sell.push({});
+          }
+        });
+    }
+  })
+  $scope.deleteStock = function(i){
+    console.log(i);
+    // console.log("in the deleteStock function");
+    $scope.maySell[i]= true;
+    // console.log($scope.maySell);
+  }
+
+  $scope.proceedDelete = function(i){
+      // console.log("In the proceedDelete function");
+      console.log(i);
+      // console.log($scope.sell);
+      $scope.sell[i].UserId = $rootScope.user.UserId;
+      $scope.sell[i].StockId = $scope.stocks[i].StockId;
+      // $scope.sell.Volume = $scope.sell.volume;
+      
+      $http.post('/api/sellStock/',$scope.sell[i]).
+      success(function(data){
+        if (data.error) 
+          $window.alert(data.error)
+        else
+          $window.alert("Delete stock successfully!");
+      });
+      $scope.maySell[i] = false;
+  }
+  $scope.declineDelete = function(i){
+    $scope.maySell[i] = false;
+  }
+
+}
+
+
 function SignUpCtrl($scope, $http){
   $scope.form = {};
   $scope.submitPost = function(){
@@ -139,6 +186,8 @@ function ReadCompCtrl($scope, $http, $routeParams) {
       $scope.comp = data.comp;
     });
 }
+
+
 
 
 

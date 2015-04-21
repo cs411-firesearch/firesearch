@@ -3,6 +3,7 @@ myApp.controller('StatusController', function(
 
 	AuthService.checkLogin(function(user) {
 		$rootScope.user = user;
+		$rootScope.$broadcast('user-ready')
 	});
 
 });

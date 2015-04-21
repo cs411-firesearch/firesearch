@@ -24,13 +24,17 @@ var myApp = angular.module('myApp', ['ngRoute', 'ngCookies']).
         templateUrl: 'partials/readComp',
         controller: ReadCompCtrl
       }).
-      when('/searchStock',{                     //newly added
+      when('/searchStock',{                      
         templateUrl: 'partials/searchStock',
         controller: SearchStockCtrl 
       }).
       when('/loginpage', {
         templateUrl: 'partials/logInUser',
         controller: LogInCtrl
+      }).
+      when('/myPort',{
+        templateUrl: 'partials/myPortfolio',
+        controller: MyPortCtrl
       }).
       otherwise({
         redirectTo: '/'

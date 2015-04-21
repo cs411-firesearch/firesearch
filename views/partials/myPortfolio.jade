@@ -1,0 +1,22 @@
+h3 Welcome {{user.Username}}! 
+div(ng-show='user.UserId')
+	div(ng-if='stocks.length==0')
+		p Your portfolio is empty. a(href='/')Add some stocks!
+	div(ng-if='stocks.length>0')
+		p Here is your portfolio! You have {{stocks.length}} stocks.
+	ul
+		li(ng-repeat='s in stocks')
+			span	Transcode: {{s.TransCode}} 
+			span	Volume: {{s.Volume}} 
+			span	BuyInPrice: {{s.BuyInPrice}} 
+			span	CurrentPrice: {{s.CurrentPrice}} 
+			a(href='/readStock/{{s.StockId}}') More 
+			button(ng-click='deleteStock($index)') Delete Stock
+			div(ng-show='maySell[$index]')
+				span Enter volume here:
+				input(type='number' ng-model='sell[$index].Volume')
+				p
+				| Are you sure you want to delete this stock for {{sell[$index].Volume}}
+				button(ng-click='proceedDelete($index)') Yes
+				| -
+				button(ng-click='declineDelete($index)') No,thanks
