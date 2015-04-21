@@ -54,7 +54,7 @@ function LogInCtrl($scope, $http, $location, $window, AuthService){
     $scope.invalidinput = false;
     AuthService.logIn($scope.form, function(data){
       if (data.success) {
-        $window.alert("Login In Succeed.");
+        $window.alert("Login In Succeeds!");
         $location.path('/');
         // $cookieStore.put('user', data.user);
       }
@@ -65,6 +65,32 @@ function LogInCtrl($scope, $http, $location, $window, AuthService){
   }
 }
 
+function SignUpCtrl($scope,$http,$window,$location,AuthService){
+  console.log("Come in to Singupctrl")
+  $scope.form = {};
+  $scope.submit = function(){
+    if(!$scope.form.username || $scope.form.username.length > 10){
+      $scope.invalidusername = true;
+      return;
+    }
+    $scope.invalidusername = false;
+    if(!$scope.form.password || $scope.form.username.length > 10){
+      $scope.invalidpassword = true;
+      return;
+    }
+    $scope.invalidpassword = false;
+    AuthService.signup($scope.form, function(data){
+      if(data.success){
+        $window.alert("Sign Up Succeeds!")
+        $location.path('/');
+      }
+      else{
+        $window.alert("Sign Up Failed.");
+      }
+    })
+  }
+
+}
 
 function ReadStockCtrl($scope, $http, $routeParams, $window, $location, $rootScope) {
   $http.get('/api/stock/' + $routeParams.id).
@@ -118,19 +144,14 @@ function MyPortCtrl($rootScope,$scope,$http,AuthService,$location,$window){
   })
   $scope.deleteStock = function(i){
     console.log(i);
-    // console.log("in the deleteStock function");
     $scope.maySell[i]= true;
-    // console.log($scope.maySell);
   }
 
   $scope.proceedDelete = function(i){
-      // console.log("In the proceedDelete function");
       console.log(i);
-      // console.log($scope.sell);
       $scope.sell[i].UserId = $rootScope.user.UserId;
       $scope.sell[i].StockId = $scope.stocks[i].StockId;
-      // $scope.sell.Volume = $scope.sell.volume;
-      
+       
       $http.post('/api/sellStock/',$scope.sell[i]).
       success(function(data){
         if (data.error) 
