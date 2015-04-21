@@ -6,10 +6,10 @@ div(ng-show='user.UserId')
 		p Here is your portfolio! You have {{stocks.length}} stocks.
 	ul
 		li(ng-repeat='s in stocks')
-			span	Transcode: {{s.TransCode}} 
-			span	Volume: {{s.Volume}} 
-			span	BuyInPrice: {{s.BuyInPrice}} 
-			span	CurrentPrice: {{s.CurrentPrice}} 
+			span Transcode: {{s.TransCode}} 
+			span Volume: {{s.Volume}} 
+			span BuyInPrice: {{s.BuyInPrice}} 
+			span CurrentPrice: {{s.CurrentPrice}} 
 			a(href='/readStock/{{s.StockId}}') More 
 			button(ng-click='deleteStock($index)') Delete Stock
 			div(ng-show='maySell[$index]')
