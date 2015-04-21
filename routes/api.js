@@ -15,6 +15,12 @@ exports.portfolio = function(req, res) {
   });
 }
 
+exports.balance = function(req, res) {
+  db.getBalance(req.params.id, function(err, result) {
+    res.json(result);
+  })
+}
+
 exports.searchStock = function(req, res) {
   db.searchStock(req.query, function(err, rows) {
     res.json({

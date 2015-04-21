@@ -109,6 +109,11 @@ function MyPortCtrl($rootScope,$scope,$http,AuthService,$location,$window){
             $scope.sell.push({});
           }
         });
+      $http.get('/api/balance/' + user.UserId).
+        success(function(data) {
+          $scope.balance = data.Balance;
+          // console.log($scope.balance)
+        })
     }
   })
   $scope.deleteStock = function(i){
