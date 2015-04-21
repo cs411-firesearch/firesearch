@@ -1,5 +1,7 @@
 var db = require('mysql')
 var utils = require('../utils/utils');
+var algo = require('../utils/algo');
+var async = require('async')
 
 var pool = db.createPool({
 	connectionLimit: 100,
@@ -9,6 +11,36 @@ var pool = db.createPool({
 	password: process.env.OPENSHIFT_MYSQL_DB_PASSWORD || 'password',
 	database: 'Fire'
 });
+
+
+db.refreshPrices = function(callback ) {
+  pool.getConnection(function(err, conn) {
+    conn.query('SELECT StockId, Season1, Season2, Season3, Season4 FROM Stock', function(err, rows) {
+      if (err)
+        console.log(err);
+      conn.release();
+
+      async.map(rows, function(row, next) {
+        var stockId = row.StockId;
+        var newSeason1 = parseFloat(row.Season2);
+        var newSeason2 = parseFloat(row.Season3);
+        var newSeason3 = parseFloat(row.Season4);
+        var newSeason4 = algo.algorithm(row.Season1, row.Season2, row.Season3, row.Season4);
+        var newValues = [newSeason1, newSeason2, newSeason3, newSeason4, stockId];
+        pool.getConnection(function(err, conn) {
+          conn.query('UPDATE Stock SET Season1 = ?, Season2 = ?, Season3 = ?, Season4 = ? WHERE StockId = ?', newValues, function(err, result) {
+            conn.release();
+            if (err)
+              console.log(err);
+            next(err, result);
+          });
+        });
+      }, function(err, results) {
+        callback(err, results);
+      });
+    });
+  });
+}
 
 db.getPortFolio = function(id, callback ) {
   pool.getConnection(function(err, conn) {

@@ -74,8 +74,8 @@ app.get('/api/stock/:id', auth.restrict, api.getStock);
 // app.post('/api/addComp', auth.restrict, api.insertCompany);
 // app.post('/api/addStock', auth.restrict, api.insertStock);
 
-app.post('/api/buyStock', api.buyStock);
-app.post('/api/sellStock', auth.restrctUserPost, api.sellStock);
+app.post('/api/buyStock', auth.restrictUserPost, api.buyStock);
+app.post('/api/sellStock', auth.restrictUserPost, api.sellStock);
 
 app.get('/api/portfolio/:id', auth.restrictUserGet, api.portfolio);
 
@@ -85,6 +85,8 @@ app.get('/auth/checklogin', auth.checkLoggedIn);
 app.get('/auth/logout', auth.logout);
 app.post('/auth/login', auth.login);
 app.post('/auth/signup', auth.signup)
+
+app.post('/refreshPrices', api.refreshPrices)
 
 app.get('/restricted', auth.restrict, function(req, res){
 	res.send('Wahoo! restricted area, click to <a href="/logout">logout</a>');                                                                                                                                                                                                                                                                                                                                                                                                                                                                            

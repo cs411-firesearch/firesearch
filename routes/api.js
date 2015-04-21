@@ -10,7 +10,7 @@ var utils = require('../utils/utils')
 exports.portfolio = function(req, res) {
   db.getPortFolio(req.params.id, function(err, result) {
     res.json({
-      data: result
+      stocks: result
     });
   });
 }
@@ -109,6 +109,21 @@ exports.sellStock = function(req, res) {
       res.json({ success: false });
   });
 };
+
+exports.refreshPrices = function(req, res) {
+  if (req.body.password !== 'molotov') {
+    res.json({ success: false,  error: 'Unauthorized'});
+  } else {
+    db.refreshPrices(function(err, results) {
+      if (err)
+        res.json(false);
+      else 
+        res.json({
+          result: results
+        })
+    })
+  }
+}
 
 // PUT
 
