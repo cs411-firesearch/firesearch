@@ -38,7 +38,7 @@ var myApp = angular.module('myApp', ['ngRoute', 'ngCookies']).
       }).
       when('/signup',{
         templateUrl:'partials/SignUpUser',
-        controller: SignUpCtrl,
+        controller: SignUpCtrl
       }).
       otherwise({
         redirectTo: '/'
