@@ -120,10 +120,10 @@ auth.signup = function(req, res) {
 			Salt: salt,
 			Hash: hash
 		}
-		db.signup(user, function(err, user) {
-			if (user) {
+		db.signup(user, function(err, result) {
+			if (result.user) {
 				req.session.regenerate(function(){
-					var userInfo = user;
+					var userInfo = result.user;
 					delete userInfo.Salt;
 					delete userInfo.Hash;
 					req.session.user = userInfo;
@@ -136,7 +136,8 @@ auth.signup = function(req, res) {
 			else {
 				console.log(err);
 				res.json({
-					success: false
+					success: false,
+					error: result.error
 				});
 			}
 		});

@@ -83,14 +83,14 @@ db.signup = function(user, callback ) {
   db.retrieveUser(name, function(err, res) {
     if (utils.isEmpty(res) == false)  {
       // user already exist
-      callback(err, null);
+      callback(err, {error: 'Username already exist'});
     } else {
       pool.getConnection(function(err, conn) {
         conn.query('INSERT INTO User (Username, Email, Salt, Hash) VALUES (?, ?, ?, ?)', [user['Username'], user['Email'], user['Salt'], user['Hash']], function(err, res) {
           if (err)
             console.log(err);
           conn.release();
-          callback(err, user);
+          callback(err, {user: user});
         });
       });
     }
