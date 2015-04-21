@@ -36,6 +36,10 @@ var myApp = angular.module('myApp', ['ngRoute', 'ngCookies']).
         templateUrl: 'partials/myPortfolio',
         controller: MyPortCtrl
       }).
+      when('/signup',{
+        templateUrl:'partials/SignUpUser',
+        controller: SignUpCtrl,
+      }).
       otherwise({
         redirectTo: '/'
       });
