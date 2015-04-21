@@ -38,6 +38,13 @@ myApp.factory('AuthService', function( $http, $rootScope, $location) {
 				success(data);
 			});
 	}
+	 authService.signUp = function(form, success) {
+	 	$http.post('/auth/signup', form).
+	 		success(function(data){
+	 			$rootScope.user = data.user;
+	 			success(data);
+	 		});
+	 }
 
 	return authService;
 });

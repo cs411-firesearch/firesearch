@@ -79,7 +79,7 @@ function SignUpCtrl($scope,$http,$window,$location,AuthService){
       return;
     }
     $scope.invalidpassword = false;
-    AuthService.signup($scope.form, function(data){
+    AuthService.signUp($scope.form, function(data){
       if(data.success){
         $window.alert("Sign Up Succeeds!")
         $location.path('/');
