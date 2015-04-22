@@ -47,7 +47,6 @@ function AddStockCtrl($scope, $http, $location) {
 
 
 function SignUpCtrl($scope, $http, $window, $location, AuthService, $rootScope) {
-  console.log("Come in to Singupctrl")
   $scope.form = {};
 
   $scope.submit = function(){
@@ -76,7 +75,6 @@ function SignUpCtrl($scope, $http, $window, $location, AuthService, $rootScope) 
 }
 
 function LogInCtrl($scope, $http, $location, $window, AuthService){
-    console.log("Come in to LogIn")
 
   $scope.form = {};
   $scope.submitPost = function() {
