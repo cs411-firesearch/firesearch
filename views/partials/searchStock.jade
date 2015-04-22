@@ -1,32 +1,31 @@
-h2 Search an existing stock
+div(ng-hide='user.UserId') 
+	span Please 
+	a(href='/loginpage') login 
+	span to search stocks
+div(ng-show='user.UserId') 
+	h3 Search an existing stock
 
-label(for='TransCode') TransCode: 
-input(ng-model='form.TransCode', name='TransCode')
-br
-label(for='VolumeLow') VolumeLow:
-input(ng-model='form.VolumeLow',name='VolumeLow')
-br
-label(for='VolumeHigh') VolumeHigh:
-input(ng-model='form.VolumeHigh',name='VolumeHigh')
-br
-label(for='DivYieldLow') DivYieldLow:
-input(ng-model='form.DivYieldLow',name='DivYieldLow')
-br
-label(for='DivYieldHigh') DivYieldHigh:
-input(ng-model='form.DivYieldHigh',name='DivYieldHigh')
-br
-p
-  button(ng-click='searchstock()') Search Stock
+	div TransCode: 
+		input(ng-model='form.TransCode')
+	div VolumeLow:
+		input(ng-model='form.VolumeLow')
+	div VolumeHigh:
+		input(ng-model='form.VolumeHigh')
+	div DivYieldLow:
+		input(ng-model='form.DivYieldLow')
+	div DivYieldHigh:
+		input(ng-model='form.DivYieldHigh')
+	button(ng-click='searchstock()') Search Stock
 
-div(ng-if="data.length>0") There are {{data.length}} results.
-div(ng-if="data.length==0") There is no corresponding result.
+	div(ng-if="data.length>0") There are {{data.length}} results.
+	div(ng-if="data.length==0") There is no corresponding result.
 
-div(ng-repeat='s in data')
-  h3 {{s.TransCode}}
-  div Volume: {{s.Volume}} Div&Yield: {{s.DivYield}}
-  span Season1: {{s.Season1}} 
-  span Season2: {{s.Season2}} 
-  span Season3: {{s.Season3}} 
-  span Season4: {{s.Season4}}
-  br
-  a(href='/readStock/{{s.StockId}}') More
+	div(ng-repeat='s in data')
+		h3 {{s.TransCode}}
+		div Volume: {{s.Volume}} Div&Yield: {{s.DivYield}}
+		span Season1: {{s.Season1}} 
+		span Season2: {{s.Season2}} 
+		span Season3: {{s.Season3}} 
+		span Season4: {{s.Season4}}
+		br
+		a(href='/readStock/{{s.StockId}}') More
