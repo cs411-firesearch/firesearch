@@ -90,6 +90,7 @@ db.signup = function(user, callback ) {
           if (err)
             console.log(err);
           conn.release();
+          user.UserId = res.insertId;
           callback(err, {user: user});
         });
       });
