@@ -74,8 +74,8 @@ app.get('/api/stock/:id', auth.restrict, api.getStock);
 // app.post('/api/addComp', auth.restrict, api.insertCompany);
 // app.post('/api/addStock', auth.restrict, api.insertStock);
 
-app.post('/api/buyStock', auth.restrictUserPost, api.buyStock);
-app.post('/api/sellStock', auth.restrictUserPost, api.sellStock);
+app.post('/api/buyStock',  api.buyStock);
+app.post('/api/sellStock', api.sellStock);
 
 app.get('/api/portfolio/:id', auth.restrictUserGet, api.portfolio);
 app.get('/api/balance/:id', auth.restrictUserGet, api.balance);

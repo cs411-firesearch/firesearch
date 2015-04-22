@@ -5,7 +5,7 @@ with open('name.txt', 'r') as f:
 		
 		name = l.strip()
 		
-		url = 'http://127.0.0.1:8080/auth/signup'
+		url = 'http://nodejs-firesearch.rhcloud.com/auth/signup'
 		values = dict(
 				username=name,
 				password='password',

@@ -7,7 +7,7 @@ VOLUME_RANGE_A = 20
 VOLUME_RANGE_B = 100
 
 def buy_stock(userId, stockId, volume):
-	url = 'http://127.0.0.1:8080/api/buyStock'
+	url = 'http://nodejs-firesearch.rhcloud.com/api/buyStock'
 	values = dict(
 			UserId=userId,
 			StockId=stockId,
