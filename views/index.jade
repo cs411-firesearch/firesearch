@@ -12,9 +12,11 @@ block body
               li(class='active')
                 a(href='/') Home
               li
-                a(href='/myPort') My portfolio
+                a(href='/myPort') My Portfolio
               li
-                a(href='/recommend') Recommend a stock
+                a(href='/recommend') Recommendations
+              li
+                a(href='searchStock') Search Stock
             ul(class="nav navbar-nav navbar-right" ng-hide='user.UserId')
               li
                 a(href='/loginpage') Login
@@ -31,7 +33,7 @@ block body
                     a(ng-click="logout()") Logout
     div(ng-view)
 
-  script(src='//code.jquery.com/jquery-1.11.2.min.js')
+  script(src='js/jquery/jquery.min.js')
   script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js')
   script(src='js/lib/angular/angular.min.js')
   script(src='js/lib/angular/angular-route.min.js')
@@ -46,6 +48,6 @@ block body
   //- script(src='js/services.js')
   //- script(src='js/filters.js')
   //- script(src='js/directives.js')
-  script(src='js/jQuery/nav.js')
+  script(src='js/jquery/nav.js')
   script(src="http://d3js.org/d3.v3.min.js")
   

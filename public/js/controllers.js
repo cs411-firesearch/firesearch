@@ -14,6 +14,14 @@ function IndexCtrl($scope, $http, AuthService, $location) {
     success(function(data, status, headers, config) {
       $scope.comps = data.comps;
     });
+  $scope.showcomp = false;
+  $scope.showcompfn = function(b) {
+    $scope.showcomp = b;
+  }
+  $scope.showstock = false;
+  $scope.showstockfn = function(b) {
+    $scope.showstock = b;
+  }
 }
 
 function AddCompCtrl($scope, $http, $location) {

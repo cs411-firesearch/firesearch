@@ -1,23 +1,34 @@
 h3(ng-show='user.UserId') Hello, {{user.Username}}. 
-  a(href='' ng-click='logout()') Log out.
+	a(href='' ng-click='logout()') Log out.
 h3(ng-hide='user.UserId') Hello, please 
-  a(href='/loginpage') log in
+	a(href='/loginpage') log in
 br
+a(id='top')
 div(ng-show='user.UserId')
-  p There are {{comps.length}} companies.
-  ul
-    li(ng-repeat='c in comps')
-      span {{c.Name}} (id: {{c.CompanyId}}) 
-      a(href='/readComp/{{c.CompanyId}}') More
-  p There are {{stocks.length}} stocks.
-  div(ng-repeat='s in stocks')
-    h3 {{s.Name}} - {{s.TransCode}}
-    div Volume: {{s.Volume}} Div&Yield: {{s.DivYield}}
-    span Season1: {{s.Season1}} 
-    span Season2: {{s.Season2}} 
-    span Season3: {{s.Season3}} 
-    span Season4: {{s.Season4}}
-    br
-    //h4 Description
-    //div {{s.Description}}
-    a(href='/readStock/{{s.StockId}}') More
+	p There are {{comps.length}} companies.
+	ul
+		div(ng-repeat='c in comps')
+			li(ng-if='showcomp || $index < 10')
+				span {{c.Name}} (id: {{c.CompanyId}}) 
+				a(href='/readComp/{{c.CompanyId}}') More
+	div
+		a(href='' ng-click='showcompfn(true)' ng-hide='showcomp') Show More
+		a(href='' ng-click='showcompfn(false)' ng-show='showcomp') Hide
+	br
+	br
+	p There are {{stocks.length}} stocks.
+	ul
+		div(ng-repeat='s in stocks')
+			li(ng-if='showstock || $index < 10')
+				div {{s.Name}} - {{s.TransCode}}
+				div Total Shares: {{s.TotalVolume}} Div&Yield: {{s.DivYield}}
+				div
+					span Season1: {{s.Season1}} 
+					span Season2: {{s.Season2}} 
+					span Season3: {{s.Season3}} 
+					span Season4: {{s.Season4}}
+				div
+					a(href='/readStock/{{s.StockId}}') More
+	div
+		a(href='' ng-click='showstockfn(true)' ng-hide='showstock') Show More
+		a(href='' ng-click='showstockfn(false)' ng-show='showstock') Hide
