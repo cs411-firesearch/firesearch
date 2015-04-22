@@ -134,14 +134,14 @@ function RecommendCtrl($scope,$http,$rootScope,AuthService,Utilities){
 
   AuthService.checkLogin(function(user){
     if(user){
-      $scope.giverecommend = true;
+      // $scope.giverecommend = true;
       $http.get('/recommend/' + user.UserId).
         success(function(data){
           $scope.recommend = data.data;
         });
     }
     else{
-      $scope.giverecommend = false;
+      // $scope.giverecommend = false;
     }
   })
 }
