@@ -52,10 +52,6 @@ app.configure('production', function(){
 	app.use(express.errorHandler());
 });
 
-// Authentication
-
-
-
 
 // Routes
 
@@ -74,8 +70,8 @@ app.get('/api/stock/:id', auth.restrict, api.getStock);
 // app.post('/api/addComp', auth.restrict, api.insertCompany);
 // app.post('/api/addStock', auth.restrict, api.insertStock);
 
-app.post('/api/buyStock',  api.buyStock);
-app.post('/api/sellStock', api.sellStock);
+app.post('/api/buyStock',  auth.restrictUserPost, api.buyStock);
+app.post('/api/sellStock', auth.restrictUserPost, api.sellStock);
 
 app.get('/api/portfolio/:id', auth.restrictUserGet, api.portfolio);
 app.get('/api/balance/:id', auth.restrictUserGet, api.balance);
@@ -89,7 +85,7 @@ app.post('/auth/signup', auth.signup)
 
 // Advanced Functions
 
-app.get('/recommend/:id', api.recommend);
+app.get('/recommend/:id', auth.restrictUserGet, api.recommend);
 app.post('/refreshPrices', api.refreshPrices);
 
 app.get('/restricted', auth.restrict, function(req, res){
