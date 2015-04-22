@@ -3,6 +3,7 @@ $(".nav a").on("click", function(){
    $(this).parent().addClass("active");
 });
 
-$(document).ready(function () {
-    $('.dropdown-toggle').dropdown();
+$('.dropdown a').on('click', function (event) {
+    $(this).parent().toggleClass('open');
 });
+
