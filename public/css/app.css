@@ -1,5 +1,23 @@
 /* app css stylesheet */
 
+
+body { font: 12px Arial;}
+
+path { 
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+
 .menu {
   list-style: none;
   border-bottom: 0.1em solid black;
