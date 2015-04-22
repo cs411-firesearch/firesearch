@@ -36,61 +36,68 @@ db.getRecommendations = function(id, callback) {
 }
 
 db.initializeModel = function(callback) {
-  var prefs = {}
   pool.getConnection(function(err, conn) {
-    conn.query('SELECT Volume as v, UserId as r, StockId as c FROM Own', function(err, tuples) {
+    conn.query('DELETE FROM Recommend', function(err, rst) {
       conn.release();
       if (err)
         console.log(err);
-      prefs.tuples = tuples;
+
+      var prefs = {}
       pool.getConnection(function(err, conn) {
-        conn.query('SELECT DISTINCT UserId as v FROM Own ORDER BY UserId', function(err, r1) {
+        conn.query('SELECT Volume as v, UserId as r, StockId as c FROM Own', function(err, tuples) {
           conn.release();
           if (err)
             console.log(err);
-          prefs.row = r1;
+          prefs.tuples = tuples;
           pool.getConnection(function(err, conn) {
-            conn.query('SELECT DISTINCT StockId as v FROM Own ORDER BY StockId', function(err, r2) {
+            conn.query('SELECT DISTINCT UserId as v FROM Own ORDER BY UserId', function(err, r1) {
               conn.release();
               if (err)
                 console.log(err);
-              prefs.column = r2;
-              algo.matrixTransform(prefs, function(recmds) {
-
-                async.each(recmds, function(userRec, next){
-                  var userId = userRec.userId;
-                  async.each(algo.range(0, userRec.recmd.length-1), function(i, next2) {
-
-                    var item = userRec.recmd[i];
-                    var stockId = item[0];
-                    var query = 'INSERT INTO Recommend (UserId, StockId, Rate) VALUES ('+userId +','+stockId+','+(1+i)+')';
-                    pool.getConnection(function(err, conn) {
-                      conn.query(query, function(err, res) {
-                        conn.release();
-                        if (err)
-                          console.log(err);
-                        next2(err);
-                      })
-                    });
-                  }, function(err) {
-                    if (err)
-                      console.log(err);
-                    next(err);
-                  });
-                }, function(err) {
+              prefs.row = r1;
+              pool.getConnection(function(err, conn) {
+                conn.query('SELECT DISTINCT StockId as v FROM Own ORDER BY StockId', function(err, r2) {
+                  conn.release();
                   if (err)
                     console.log(err);
-                  modelUninitialized = false;
-                  callback();
-                });
+                  prefs.column = r2;
+                  algo.matrixTransform(prefs, function(recmds) {
 
+                    async.each(recmds, function(userRec, next){
+                      var userId = userRec.userId;
+                      async.each(algo.range(0, userRec.recmd.length-1), function(i, next2) {
+
+                        var item = userRec.recmd[i];
+                        var stockId = item[0];
+                        var query = 'INSERT INTO Recommend (UserId, StockId, Rate) VALUES ('+userId +','+stockId+','+(1+i)+')';
+                        pool.getConnection(function(err, conn) {
+                          conn.query(query, function(err, res) {
+                            conn.release();
+                            if (err)
+                              console.log(err);
+                            next2(err);
+                          })
+                        });
+                      }, function(err) {
+                        if (err)
+                          console.log(err);
+                        next(err);
+                      });
+                    }, function(err) {
+                      if (err)
+                        console.log(err);
+                      modelUninitialized = false;
+                      callback();
+                    });
+                  });
+                });
               });
             });
           });
         });
       });
-    })
-  })
+    });
+  });
 }
 
 db.refreshPrices = function(rspCallback ) {
