@@ -1,7 +1,8 @@
 h3 Welcome {{user.Username}}! 
 div(ng-show='user.UserId')
 	div(ng-if='stocks.length==0')
-		p Your portfolio is empty. a(href='/')Add some stocks!
+		span Your portfolio is empty. 
+		a(href='/') Add some stocks!
 	div(ng-if='stocks.length>0')
 		p Here is your portfolio! You have {{stocks.length}} stocks.
 	p Your current balance is {{balance}}

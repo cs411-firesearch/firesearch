@@ -1,0 +1,15 @@
+h3(ng-show='user.UserId') Hello, {{user.Username}}! 
+div(ng-show='giverecommend') Here are the stocks Firesearch recommends to you!
+ul
+	li(ng-repeat='r in recommend')
+		span StockId: {{r.StockId}}		 
+		span Transcode: {{r.TransCode}}		
+		span CurrentPrice: 
+		{{wrapFloat(r.CurrentPrice)}}		
+		//span CurrentPrice: {{r.CurrentPrice}}		
+		a(href='/readStock/{{r.StockId}}') More		
+
+div(ng-show='!giverecommend') 
+	span Please 
+	a(href='/') login 
+	span to see recommended stocks for you!

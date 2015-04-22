@@ -96,7 +96,7 @@ function LogInCtrl($scope, $http, $location, $window, AuthService){
   }
 }
 
-
+//need to be fixed when logged out
 function ReadStockCtrl($scope, $http, $routeParams, $window, $location, $rootScope) {
   $http.get('/api/stock/' + $routeParams.id).
     success(function(data) {
@@ -124,6 +124,26 @@ function ReadStockCtrl($scope, $http, $routeParams, $window, $location, $rootSco
       }
     }
   }
+}
+
+
+function RecommendCtrl($scope,$http,$rootScope,AuthService,Utilities){
+  //console.log("in the RecommendCtrl");
+  $scope.wrapFloat = Utilities.wrapFloat;
+  $scope.recommend = [];
+
+  AuthService.checkLogin(function(user){
+    if(user){
+      $scope.giverecommend = true;
+      $http.get('/recommend/' + user.UserId).
+        success(function(data){
+          $scope.recommend = data.data;
+        });
+    }
+    else{
+      $scope.giverecommend = false;
+    }
+  })
 }
 
 function MyPortCtrl($rootScope,$scope,$http,AuthService,$location,$window){

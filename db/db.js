@@ -13,6 +13,93 @@ var pool = db.createPool({
 	database: 'Fire'
 });
 
+var modelUninitialized = true;
+
+db.getRecommendations = function(id, callback) {
+  var next = function() {
+    // var recommendations = algo.Model.recommendations(""+id);
+    // callback(recommendations)
+    pool.getConnection(function(err, conn) {
+      conn.query('SELECT StockId, TransCode, Season4 as CurrentPrice FROM Recommend NATURAL JOIN Stock WHERE UserId = ? ORDER BY Rate LIMIT 5', [id], function(err, rst) {
+        conn.release();
+        if (err)
+          console.log(err);
+        callback(rst);
+      });
+    });
+  }
+  if (modelUninitialized) {
+    db.initializeModel(next);
+  } else {
+    next();
+  }
+}
+
+db.initializeModel = function(callback) {
+  pool.getConnection(function(err, conn) {
+    conn.query('DELETE FROM Recommend', function(err, rst) {
+      conn.release();
+      if (err)
+        console.log(err);
+
+      var prefs = {}
+      pool.getConnection(function(err, conn) {
+        conn.query('SELECT Volume as v, UserId as r, StockId as c FROM Own', function(err, tuples) {
+          conn.release();
+          if (err)
+            console.log(err);
+          prefs.tuples = tuples;
+          pool.getConnection(function(err, conn) {
+            conn.query('SELECT DISTINCT UserId as v FROM Own ORDER BY UserId', function(err, r1) {
+              conn.release();
+              if (err)
+                console.log(err);
+              prefs.row = r1;
+              pool.getConnection(function(err, conn) {
+                conn.query('SELECT DISTINCT StockId as v FROM Own ORDER BY StockId', function(err, r2) {
+                  conn.release();
+                  if (err)
+                    console.log(err);
+                  prefs.column = r2;
+                  algo.matrixTransform(prefs, function(recmds) {
+
+                    async.each(recmds, function(userRec, next){
+                      var userId = userRec.userId;
+                      async.each(algo.range(0, userRec.recmd.length-1), function(i, next2) {
+
+                        var item = userRec.recmd[i];
+                        var stockId = item[0];
+                        var query = 'INSERT INTO Recommend (UserId, StockId, Rate) VALUES ('+userId +','+stockId+','+(1+i)+')';
+                        pool.getConnection(function(err, conn) {
+                          conn.query(query, function(err, res) {
+                            conn.release();
+                            if (err)
+                              console.log(err);
+                            next2(err);
+                          })
+                        });
+                      }, function(err) {
+                        if (err)
+                          console.log(err);
+                        next(err);
+                      });
+                    }, function(err) {
+                      if (err)
+                        console.log(err);
+                      modelUninitialized = false;
+                      callback();
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+}
+
 db.refreshPrices = function(rspCallback ) {
   pool.getConnection(function(err, conn) {
     conn.query('SELECT StockId, Season1, Season2, Season3, Season4 FROM Stock', function(err, rows) {
@@ -49,7 +136,8 @@ db.refreshPrices = function(rspCallback ) {
           });
         });
       }, function(err, results) {
-
+        // algo.clearModel();
+        modelUninitialized = true;
         notify.process(err, results, rspCallback);
       });
     });
@@ -265,9 +353,9 @@ var updateOwn = function(updateType, userId, stockId, Volume, Price, callback) {
   });
 }
 
-var getCurrentPrice = function(stockId, next, callback) {
+var getCurrentStockInfo = function(stockId, next, callback) {
   pool.getConnection(function(err, conn) {
-    conn.query('SELECT Season1, Season2, Season3, Season4 FROM Stock WHERE StockId = ?', [+stockId], function(err, res) {
+    conn.query('SELECT Season1, Season2, Season3, Season4, Type FROM Stock WHERE StockId = ?', [+stockId], function(err, res) {
       conn.release();
       if (err)
         console.log(err);
@@ -292,12 +380,12 @@ var updateUserBalance = function(userId, balanceOffset, callback) {
 
 
 db.buyStock = function(userId, stockId, buyVolume, callback) {
-  var getPriceCallback = function(err, prices, callback) {
-    if (prices.error) {
-      callback(err, prices)
+  var getPriceCallback = function(err, stockInfo, callback) {
+    if (stockInfo.error) {
+      callback(err, stockInfo)
       return;
     }
-    var currentPrice = parseFloat(prices.Season4);
+    var currentPrice = parseFloat(stockInfo.Season4);
     pool.getConnection( function(err, conn) {
       conn.query('SELECT * FROM Own WHERE UserId = ? AND StockId = ?', [[+userId], [+stockId]], function(err, res) {
         conn.release();
@@ -319,19 +407,19 @@ db.buyStock = function(userId, stockId, buyVolume, callback) {
     });
   };
   // execute function here
-  getCurrentPrice(stockId, getPriceCallback, callback);
+  getCurrentStockInfo(stockId, getPriceCallback, callback);
 }
 
 
 db.sellStock = function(userId, stockId, sellVolume, callback) {
-  var getPriceCallback = function(err, prices, callback) {
-    if (prices.error) {
-      callback(err, prices)
+  var getPriceCallback = function(err, stockInfo, callback) {
+    if (stockInfo.error) {
+      callback(err, stockInfo)
       return;
     }
-    var currentPrice = parseFloat(prices.Season4);
+    var currentPrice = parseFloat(stockInfo.Season4);
     pool.getConnection( function(err, conn) {
-      conn.query('SELECT * FROM OWn WHERE UserId = ? AND StockId = ?', [[+userId], [+stockId]], function(err, res) {
+      conn.query('SELECT * FROM Own WHERE UserId = ? AND StockId = ?', [[+userId], [+stockId]], function(err, res) {
         conn.release();
         if (err)
           console.log(err);
@@ -364,7 +452,7 @@ db.sellStock = function(userId, stockId, sellVolume, callback) {
       });
     });
   };
-  getCurrentPrice(stockId, getPriceCallback, callback);
+  getCurrentStockInfo(stockId, getPriceCallback, callback);
 }
 
 // db.remove = function(id, callback) {

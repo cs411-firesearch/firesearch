@@ -40,6 +40,10 @@ var myApp = angular.module('myApp', ['ngRoute', 'ngCookies']).
         templateUrl: 'partials/myPortfolio',
         controller: MyPortCtrl
       }).
+      when('/recommend',{
+        templateUrl: 'partials/recommend',
+        controller: RecommendCtrl
+      }).
       otherwise({
         redirectTo: '/'
       });
