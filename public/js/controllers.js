@@ -46,31 +46,32 @@ function AddStockCtrl($scope, $http, $location) {
 
 
 
-function SignUpCtrl($scope, $http, $window, $location, AuthService) {
+function SignUpCtrl($scope, $http, $window, $location, AuthService, $rootScope) {
   console.log("Come in to Singupctrl")
-  // $scope.form = {};
+  $scope.form = {};
 
-  // $scope.submit = function(){
-  //   if(!$scope.form.username || $scope.form.username.length > 10){
-  //     $scope.invalidusername = true;
-  //     return;
-  //   }
-  //   $scope.invalidusername = false;
-  //   if(!$scope.form.password || $scope.form.username.length > 10){
-  //     $scope.invalidpassword = true;
-  //     return;
-  //   }
-  //   $scope.invalidpassword = false;
-  //   AuthService.signUp($scope.form, function(data){
-  //     if(data.success){
-  //       $window.alert("Sign Up Succeeds!")
-  //       $location.path('/');
-  //     }
-  //     else{
-  //       $window.alert("Sign Up Failed.");
-  //     }
-  //   });
-  // };
+  $scope.submit = function(){
+    if(!$scope.form.username || $scope.form.username.length > 20){
+      $scope.invalidusername = true;
+      return;
+    }
+    $scope.invalidusername = false;
+    if(!$scope.form.password || $scope.form.username.length > 20){
+      $scope.invalidpassword = true;
+      return;
+    }
+    $scope.invalidpassword = false;
+    AuthService.signUp($scope.form, function(data){
+      if(data.success){
+        $window.alert("Sign Up Succeeds!")
+        $rootScope.user = data.user;
+        $location.path('/');
+      }
+      else{
+        $window.alert(data.error || "Sign Up Failed.");
+      }
+    });
+  };
 
 }
 
@@ -171,17 +172,6 @@ function MyPortCtrl($rootScope,$scope,$http,AuthService,$location,$window){
     $scope.maySell[i] = false;
   }
 
-}
-
-
-function SignUpCtrl($scope, $http){
-  $scope.form = {};
-  $scope.submitPost = function(){
-    $http.post('/signup', $scope.form).
-      success(function(data){
-        $location.path('/');
-      });
-  }
 }
 
 function SearchStockCtrl($scope, $http, $location) {
