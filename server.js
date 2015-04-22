@@ -87,7 +87,10 @@ app.get('/auth/logout', auth.logout);
 app.post('/auth/login', auth.login);
 app.post('/auth/signup', auth.signup)
 
-app.post('/refreshPrices', api.refreshPrices)
+// Advanced Functions
+
+app.get('/recommend/:id', api.recommend);
+app.post('/refreshPrices', api.refreshPrices);
 
 app.get('/restricted', auth.restrict, function(req, res){
 	res.send('Wahoo! restricted area, click to <a href="/logout">logout</a>');                                                                                                                                                                                                                                                                                                                                                                                                                                                                            

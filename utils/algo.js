@@ -1,5 +1,78 @@
 
 
+
+var async = require('async')
+var Recommender = require('likely')
+var db = require('../db/db')
+
+exports.range = function(start, end) {
+    var foo = [];
+    for (var i = start; i <= end; i++) {
+        foo.push(i);
+    }
+    return foo;
+}
+
+exports.matrixTransform = function(pref, callback) {
+  var r = pref.row.length;
+  var c = pref.column.length;
+  // console.log(r)
+  // console.log(c)
+  var matrix = [];
+  for (var i = 0; i < r; i++) {
+    var row = []
+    for (var j = 0; j < c ; j++) {
+      row.push(0);
+    }
+    matrix.push(row);
+  }
+  var r_dict = {}
+  var c_dict = {}
+  var max = 0;
+  async.each(exports.range(0,r-1), function(i, next) {
+    var v = ""+pref.row[i].v;
+    pref.row[i] = v;
+    r_dict[v] = i;
+    next();
+  },function(err) {
+    if (err) console.log(err);
+  });
+  async.each(exports.range(0,c-1), function(i, next) {
+    var v = ""+pref.column[i].v;
+    pref.column[i] = v;
+    c_dict[v] = i;
+    next();
+  },function(err) {
+    if (err) console.log(err);
+  });
+
+  async.each(pref.tuples, function(t, next) {
+    var x = r_dict[t.r];
+    var y = c_dict[t.c];
+    matrix[x][y] = parseFloat(t.v)/100.0.toFixed(3);
+    next();
+  }, function(err) {
+    if (err)
+      console.log(err);
+  });
+  buildModel(matrix, pref.row, pref.column, callback);
+}
+
+// exports.Model = null;
+
+var buildModel = function(matrix, row_label, column_label, callback) {
+
+  var Model = Recommender.buildModel(matrix, row_label, column_label);
+  async.map(row_label, function(u, next) {
+    var r = Model.recommendations(u);
+    next(null, {userId: u, recmd: r});
+  }, function(err, results) {
+    if (err) 
+      console.log(err);
+    callback(results);
+  });
+}
+
 exports.algorithm = function(x1, x2, x3, x4) {
   x1 = parseFloat(x1);
   x2 = parseFloat(x2);

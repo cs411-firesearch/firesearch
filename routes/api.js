@@ -4,8 +4,17 @@
 
 var db = require('../db/db')
 var utils = require('../utils/utils')
+var algo = require('../utils/algo')
 
 // GET
+
+exports.recommend = function(req, res) {
+  db.getRecommendations(req.params.id, function(data) {
+    res.json({
+      data: data
+    })
+  });
+}
 
 exports.portfolio = function(req, res) {
   db.getPortFolio(req.params.id, function(err, result) {
