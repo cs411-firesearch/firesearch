@@ -1,6 +1,6 @@
 /* app css stylesheet */
 
-
+/* css for line chart*/
 body { font: 12px Arial;}
 
 path { 
@@ -17,7 +17,18 @@ path {
     shape-rendering: crispEdges;
 }
 
+/*css for bar chart*/
 
+.bchart div {
+  font: 10px sans-serif;
+  background-color: steelblue;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+  color: white;
+}
+
+/*css for menu*/
 .menu {
   list-style: none;
   border-bottom: 0.1em solid black;

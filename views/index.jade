@@ -4,7 +4,7 @@ block body
   div(ng-controller='StatusController')
     div(class="navbar1")
       nav(class="navbar navbar-default")
-        div(class="container-fluid")
+        div(class="container-fluid col-md-10 col-md-offset-1")
           div(class="navbar-header")
             a(class="navbar-brand") Firesearch
           div(class="collapse navbar-collapse")
@@ -26,14 +26,16 @@ block body
               li
                 button(ng-click="nextDay()") NextDay
               li(class="dropdown")
-                a(class="dropdown-toggle" id="username") Welcome, {{user.Username}}
+                a(class="dropdown-toggle" data-toggle="dropdown" id="username") Welcome, {{user.Username}}
                   b(class="caret")
                 ul(class="dropdown-menu")
                   li
                     a(href='/myPort') My Account
                   li
                     a(ng-click="logout()") Logout
-    div(ng-view)
+    meta(charset="UTF-8")
+    div(class='col-md-10 col-md-offset-1')
+      div(ng-view)
 
   script(src='js/lib/jquery/jquery-1.11.2.min.js')
   script(src='js/nav.js')
@@ -44,6 +46,7 @@ block body
   script(src='js/lib/angular/angular-cookies.min.js')
   script(src='js/app.js')
   script(src='js/d3js/lineChart.js')
+  script(src='js/d3js/barChart.js')
   script(src='js/controllers.js')
   script(src='js/status.js')
   script(src='js/utils.js')

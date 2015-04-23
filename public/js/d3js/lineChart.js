@@ -29,7 +29,7 @@ var xAxis = d3.svg.axis().scale(x)
 var yAxis = d3.svg.axis().scale(y)
     .orient("left").ticks(5);
 
-var unitWeight = width/4;
+var unitWeight = width/4.3;
 
 var unitY = height/(scopes*2);
 // Define the line
@@ -52,7 +52,7 @@ var point = svg.append("g")
 
 
 // Get the data
-x.domain([0.5, 4.5]);
+x.domain([0.5, 4.8]);
 y.domain([min - scopes/2, max + scopes/2]);
 
 svg.append("path")
@@ -84,12 +84,10 @@ var c = 0;
 var labels = svg.append("g")
 .attr("class", "labels");
 
-var xArray = [0, 1*unitWeight,2*unitWeight,3*unitWeight];
-var yArray = [height - (datas[0]-min+scopes/2)*unitY, height - (datas[1]-min+scopes/2)*unitY, height - (datas[2]-min+scopes/2)*unitY, height - (datas[3]-min+scope/2)*unitY]
 var one = [0];
 for (var i = datas.length - 1; i >= 0; i--) {
     //console.log(i); 
-    var xPP = (i+0.25)*unitWeight;
+    var xPP = (i+0.1)*unitWeight;
     var yPP = height - (datas[i]-min+scopes/1.5)*unitY;
     labels.selectAll('labels')
     .data(one)
