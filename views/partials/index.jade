@@ -5,9 +5,11 @@ div(ng-hide='user.UserId' align="center")
 		span(style="font-weight: bold; color: steelblue;") Firesearch 
 		span !
 	p(style='color: gray;') To begin your trip there:
-	button(type="button" class="btn btn-primary" href='/loginpage') Login
+	a(href='/loginpage')
+		button(type="button" class="btn btn-primary" ) Login
 	|  or  
-	button(type="button" class="btn btn-info" href='/signup') Signup
+	a(href='/signup')
+		button( type="button" class="btn btn-info" ) Signup
 	br
 	br
 	br
