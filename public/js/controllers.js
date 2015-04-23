@@ -14,6 +14,14 @@ function IndexCtrl($scope, $http, AuthService, $location) {
     success(function(data, status, headers, config) {
       $scope.comps = data.comps;
     });
+  $scope.showcomp = false;
+  $scope.showcompfn = function(b) {
+    $scope.showcomp = b;
+  }
+  $scope.showstock = false;
+  $scope.showstockfn = function(b) {
+    $scope.showstock = b;
+  }
 }
 
 function AddCompCtrl($scope, $http, $location) {
@@ -134,22 +142,19 @@ function RecommendCtrl($scope,$http,$rootScope,AuthService,Utilities){
 
   AuthService.checkLogin(function(user){
     if(user){
-      $scope.giverecommend = true;
       $http.get('/recommend/' + user.UserId).
         success(function(data){
           $scope.recommend = data.data;
         });
     }
-    else{
-      $scope.giverecommend = false;
-    }
   })
 }
 
-function MyPortCtrl($rootScope,$scope,$http,AuthService,$location,$window){
+function MyPortCtrl($rootScope,$scope,$http,AuthService,Utilities){
   $scope.stocks = []
   $scope.maySell = []
   $scope.sell = []
+  $scope.wrapFloat = Utilities.wrapFloat;
   AuthService.checkLogin(function(user) {
     if (user) {
       $http.get('/api/portfolio/' + user.UserId).

@@ -15,7 +15,7 @@ div(ng-show='user.UserId')
 			span Transcode: {{s.TransCode}} 
 			span Volume: {{s.Volume}} 
 			span BuyInPrice: {{s.BuyInPrice}} 
-			span CurrentPrice: {{s.CurrentPrice}} 
+			span CurrentPrice: {{wrapFloat(s.CurrentPrice)}} 
 			a(href='/readStock/{{s.StockId}}') More 
 			button(ng-click='deleteStock($index)') Delete Stock
 			div(ng-show='maySell[$index]')

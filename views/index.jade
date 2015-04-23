@@ -6,15 +6,17 @@ block body
       nav(class="navbar navbar-default")
         div(class="container-fluid col-md-10 col-md-offset-1")
           div(class="navbar-header")
-            a(class="navbar-brand" href="#") Firesearch
+            a(class="navbar-brand") Firesearch
           div(class="collapse navbar-collapse")
             ul(class='nav nav-tabs navbar-left')
               li(class='active')
                 a(href='/') Home
               li
-                a(href='/myPort') My portfolio
+                a(href='/myPort') My Portfolio
               li
-                a(href='/recommend') Recommend a stock
+                a(href='/recommend') Recommendations
+              li
+                a(href='searchStock') Search Stock
             ul(class="nav navbar-nav navbar-right" ng-hide='user.UserId')
               li
                 a(href='/loginpage') Login
@@ -33,8 +35,10 @@ block body
     div(class='col-md-10 col-md-offset-1')
       div(ng-view)
 
-  script(src='//code.jquery.com/jquery-1.11.2.min.js')
+  script(src='js/lib/jquery/jquery-1.11.2.min.js')
+  script(src='js/nav.js')
   script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js')
+  script(src="http://d3js.org/d3.v3.min.js")
   script(src='js/lib/angular/angular.min.js')
   script(src='js/lib/angular/angular-route.min.js')
   script(src='js/lib/angular/angular-cookies.min.js')
@@ -45,10 +49,3 @@ block body
   script(src='js/status.js')
   script(src='js/utils.js')
   script(src='js/authentication.js')
-
-  //- script(src='js/services.js')
-  //- script(src='js/filters.js')
-  //- script(src='js/directives.js')
-  script(src='js/jQuery/nav.js')
-  script(src="http://d3js.org/d3.v3.min.js")
-  
