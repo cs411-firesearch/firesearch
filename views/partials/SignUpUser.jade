@@ -1,17 +1,31 @@
+
 h2 New to FireSearch? Sign Up!
- 
-label(for='Username') Username:
-input(placeholder="Put your username" ng-model='form.username', name='username')
-span(ng-show='invalidusername' class='red') required information
-br
-label(for='Password') Password:
-input(ng-model='form.password',name='password',type='password')
-span(ng-show='invalidpassword' class='red') required information
-//- input(ng-show='passwordagain' ng-mode='form.Password2',name='Password2')
-//- span(ng-show='notmatch' class='red') passwords not matched
-br
-label(for='Email') Email:
-input(ng-model='form.email', name='email')
+
+div
+	b Username
+	br 
+	input(placeholder="username" ng-model='form.username')
+	span(ng-show='invalidusername' class='red') required information
+	br
+div
+	b Password
+	br
+	input(placeholder="password" ng-model='form.password' type='password')
+	span(ng-show='invalidpassword' class='red') required information
+	br
+div
+	b Password Again
+	br
+	input(placeholder="check password" ng-model='form.password2' type='password')
+	span(ng-if='form.password != form.password2' class='red') password not match
+	br
+div
+	b Email
+	br
+	input(placeholder="@gmail/hotmail/.." ng-model='form.email')
+	br
+	br
+
 //- label(for='Option') Do you want to receive notification of your portfolio from firesearch?
 //- span input(type='radio' ng-model='form.gender' value='female' name='female')
 //- span input(type='radio ng-model='form.gender' value='male' name='male')

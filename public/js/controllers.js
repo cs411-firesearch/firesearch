@@ -63,11 +63,9 @@ function SignUpCtrl($scope, $http, $window, $location, AuthService, $rootScope) 
       return;
     }
     $scope.invalidusername = false;
-    if(!$scope.form.password || $scope.form.username.length > 20){
-      $scope.invalidpassword = true;
+    if ($scope.form.password != $scope.form.password2) {
       return;
     }
-    $scope.invalidpassword = false;
     AuthService.signUp($scope.form, function(data){
       if(data.success){
         $window.alert("Sign Up Succeeds!")

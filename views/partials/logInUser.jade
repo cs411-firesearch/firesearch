@@ -1,12 +1,15 @@
 h2 Welcome to FireSearch! Log In here!
  
 label(for='username') Username
-input(id='inputUsername' ng-model='form.username', name='username')
+br
+input(placeholder="username" id='inputUsername' ng-model='form.username', name='username')
 span(ng-show='invalidinput' class='red')  cannot be empty
 br
 label(for='password') Password
-input(id='inputPassword' ng-keyup="$event.keyCode == 13 ? submitPost() : null" ng-model='form.password',name='password',type='password')
+br
+input(placeholder="password" id='inputPassword' ng-keyup="$event.keyCode == 13 ? submitPost() : null" ng-model='form.password',name='password',type='password')
 span(ng-show='invalidinput' class='red')  cannot be empty
+br
 br
 
 p
