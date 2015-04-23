@@ -1,7 +1,20 @@
 h3(ng-show='user.UserId') Hello, {{user.Username}}. 
 	a(href='' ng-click='logout()') Log out.
-h3(ng-hide='user.UserId') Hello, please 
-	a(href='/loginpage') log in
+div(ng-hide='user.UserId' align="center") 
+	h2 Welcome to 
+		span(style="font-weight: bold; color: steelblue;") Firesearch 
+		span !
+	p(style='color: gray;') To begin your trip there:
+	button(type="button" class="btn btn-primary" href='/loginpage') Login
+	|  or  
+	button(type="button" class="btn btn-info" href='/signup') Signup
+	br
+	br
+	br
+	br
+	br
+	br
+
 br
 a(id='top')
 div(ng-show='user.UserId')
@@ -32,3 +45,7 @@ div(ng-show='user.UserId')
 	div
 		a(href='' ng-click='showstockfn(true)' ng-hide='showstock') Show More
 		a(href='' ng-click='showstockfn(false)' ng-show='showstock') Hide
+
+hr
+div(align='right')
+	p(style="color:gray") @2015 Firesearch

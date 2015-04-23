@@ -28,7 +28,19 @@ path {
   color: white;
 }
 
-/*css for menu*/
+/*css for nav*/
+.navbar-brand {
+    font-weight: bold;
+    color: #003d5f;
+    position: relative;
+    display: inline-block;
+}
+
+
+input {
+  margin-bottom: 5px;
+}
+
 .menu {
   list-style: none;
   border-bottom: 0.1em solid black;
