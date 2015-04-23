@@ -87,3 +87,7 @@ input {
 [x-ng-click] {
   cursor: pointer;
 }
+
+nav button {
+  padding: 15px;
+}

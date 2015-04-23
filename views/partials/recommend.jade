@@ -1,6 +1,6 @@
 h3(ng-show='user.UserId') Hello, {{user.Username}}! 
 div(ng-show='user.UserId') Here are the stocks Firesearch recommends to you!
-div(ng-hide='recommend.length || !user.UserId') Loading data...
+div(ng-hide='recommend.length || !user.UserId') We are still preparing data for you...
 ul(ng-show='recommend.length')
 	li(ng-repeat='r in recommend')
 		span StockId: {{r.StockId}}		 
