@@ -15,11 +15,11 @@ section
 	h4 Add this Stock in your Portfolio!
 	span Enter volume here:  
 	input(type='number' ng-model='add.volume')
-	button(ng-click='addStock()')   Add
+	button(class="btn btn-primary" ng-click='addStock()')   Add
 	div(ng-show='mayBuy')
 		p
 		| Are you sure you want to add this stock for {{add.volume}}? 
-		button(ng-click='proceedAdd()') Yes
+		button(class="btn btn-success" ng-click='proceedAdd()') Yes
 		|  - 
-		button(ng-click='declineAdd()') No,thanks
+		button(class="btn btn-danger" ng-click='declineAdd()') No,thanks
 

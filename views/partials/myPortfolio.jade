@@ -17,7 +17,7 @@ div(ng-show='user.UserId')
 			span BuyInPrice: {{s.BuyInPrice}} 
 			span CurrentPrice: {{wrapFloat(s.CurrentPrice)}} 
 			a(href='/readStock/{{s.StockId}}') More 
-			button(ng-click='deleteStock($index)') Delete Stock
+			button(class="btn btn-danger" ng-click='deleteStock($index)') Delete Stock
 			div(ng-show='maySell[$index]')
 				span Enter volume here:
 				input(type='number' ng-model='sell[$index].Volume')

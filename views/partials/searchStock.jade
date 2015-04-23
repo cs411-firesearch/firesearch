@@ -16,7 +16,7 @@ label(for='DivYieldHigh') DivYieldHigh:
 input(ng-model='form.DivYieldHigh',name='DivYieldHigh')
 br
 p
-  button(ng-click='searchstock()') Search Stock
+  button(class='btn btn-primary' ng-click='searchstock()') Search Stock
 
 div(ng-if="data.length>0") There are {{data.length}} results.
 div(ng-if="data.length==0") There is no corresponding result.
