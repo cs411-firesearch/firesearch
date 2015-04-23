@@ -1,9 +1,7 @@
 # Readme
 
-A sample nodejs site (node + angular + express) to test openshift. 
-
-Mar.29 update:
-Use mysql as database
+Fire Search - CS411 SP2015 Course Project
+- Personal Portfolio Management System - 
 
 
 
