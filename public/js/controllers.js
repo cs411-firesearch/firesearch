@@ -148,7 +148,7 @@ function RecommendCtrl($scope,$http,$rootScope,AuthService,Utilities){
   })
 }
 
-function MyPortCtrl($rootScope,$scope,$http,AuthService,Utilities){
+function MyPortCtrl($rootScope,$scope,$http,$window, AuthService,Utilities){
   $scope.stocks = []
   $scope.maySell = []
   $scope.sell = []
@@ -176,7 +176,14 @@ function MyPortCtrl($rootScope,$scope,$http,AuthService,Utilities){
   }
 
   $scope.proceedDelete = function(i){
-      console.log(i);
+
+
+      if ($scope.sell[i].Volume <= 0) {
+
+        $window.alert("Invalid volume!");
+        return;
+      }
+
       $scope.sell[i].UserId = $rootScope.user.UserId;
       $scope.sell[i].StockId = $scope.stocks[i].StockId;
        
