@@ -23,6 +23,8 @@ block body
               li
                 a(href='/signup') Signup
             ul(class="nav navbar-nav navbar-right" ng-show='user.UserId')
+              li
+                button(ng-click="nextDay()") NextDay
               li(class="dropdown")
                 a(class="dropdown-toggle" id="username") Welcome, {{user.Username}}
                   b(class="caret")

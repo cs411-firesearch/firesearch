@@ -1,5 +1,5 @@
 myApp.controller('StatusController', function(
-	$scope, $rootScope, AuthService, $location) {
+	$scope, $rootScope, AuthService, $location, $route, $http) {
 
 	AuthService.checkLogin(function(user) {
 		// console.log(user);
@@ -9,4 +9,12 @@ myApp.controller('StatusController', function(
 	$scope.logout = function(){
     	AuthService.logOut();
   	};
+
+  	$scope.nextDay = function() {
+  		$http.post('/refreshPrices', {
+  			password: 'molotov'
+  		}).success(function() {
+  			$route.reload();
+  		});
+  	}
 });
