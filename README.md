@@ -1,10 +1,19 @@
 # Readme
 
-A sample nodejs site (node + angular + express) to test openshift. 
+Fire Search - CS411 SP2015 Course Project
+- Personal Portfolio Management System
 
-Mar.29 update:
-Use mysql as database
+# Instruction to build
 
+First create a database in mysql and run the SQL files in sql directory in the following order
 
+Company.sql, Stock.sql, User.sql, Own.sql
 
+To start the website at localhost:8080, first run
+
+`> (sudo) npm install`
+
+Then run the following to start the server
+
+`> npm start`
 
