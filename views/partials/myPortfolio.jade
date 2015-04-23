@@ -6,6 +6,10 @@ div(ng-show='user.UserId')
 	div(ng-if='stocks.length>0')
 		p Here is your portfolio! You have {{stocks.length}} stocks.
 	p Your current balance is {{balance}}
+	p Here is the table of your stocks' volume:
+	div(class='bchart')
+	div(bar-chart)
+	p Details of your stocks:
 	ul
 		li(ng-repeat='s in stocks')
 			span Transcode: {{s.TransCode}} 

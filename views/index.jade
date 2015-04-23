@@ -4,7 +4,7 @@ block body
   div(ng-controller='StatusController')
     div(class="navbar1")
       nav(class="navbar navbar-default")
-        div(class="container-fluid")
+        div(class="container-fluid col-md-10 col-md-offset-1")
           div(class="navbar-header")
             a(class="navbar-brand" href="#") Firesearch
           div(class="collapse navbar-collapse")
@@ -29,7 +29,9 @@ block body
                     a(href='/myPort') My Account
                   li
                     a(ng-click="logout()") Logout
-    div(ng-view)
+    meta(charset="UTF-8")
+    div(class='col-md-10 col-md-offset-1')
+      div(ng-view)
 
   script(src='//code.jquery.com/jquery-1.11.2.min.js')
   script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js')
@@ -38,6 +40,7 @@ block body
   script(src='js/lib/angular/angular-cookies.min.js')
   script(src='js/app.js')
   script(src='js/d3js/lineChart.js')
+  script(src='js/d3js/barChart.js')
   script(src='js/controllers.js')
   script(src='js/status.js')
   script(src='js/utils.js')
